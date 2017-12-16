@@ -1,0 +1,46 @@
+Club.deployed().then(function(instance){return instance.isRegistered.call({from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});})
+Club.deployed().then(function(instance){return instance.register("ava",{from: "0xf17f52151ebef6c7334fad080c5704d77216b732",value: 600});})
+Club.deployed().then(function(instance){return instance.register('jake',{value: 600});})
+Club.deployed().then(function(instance){return instance.isRegistered.call();})
+
+Club.deployed().then(function(instance){return instance.vote.call("0xf17f52151ebef6c7334fad080c5704d77216b732");})
+Club.deployed().then(function(instance){return instance.countVotes.call();})
+
+Club.deployed().then(function(instance){return instance.outputReps.call(1);}).then(function(value){return value});
+
+Club.deployed().then(function(instance){return instance.useVote.call("0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f");}).then(function(value){return value.toNumber()});
+
+
+Club.deployed().then(function(instance){return instance.subsidize({from: "0xf17f52151ebef6c7334fad080c5704d77216b732",value: 1000});})
+Club.deployed().then(function(instance){return instance.seeContractBalance.call();}).then(function(value){return value.toNumber()});
+Club.deployed().then(function(instance){return instance.listRegisteredUsers.call();}).then(function(value){return value});
+Club.deployed().then(function(instance){return instance.numberOfRepresentatives.call();}).then(function(value){return value.toNumber()});
+
+Club.deployed().then(function(instance){Club=instance})
+
+function countVotes() public {
+      //should be able to prioritise
+
+      for (uint i = 0; i < registeredAddresses.length; i++) {
+        if(voteCount[registeredAddresses[i]] == 0)
+        {
+          voteCount[registeredAddresses[i]] = 1;
+        }
+        else
+        {
+          voteCount[registeredAddresses[i]] += 1;
+        }
+      }
+      //make this count better
+      for (uint z = 0; z < registeredAddresses.length; z++) {
+        if(voteCount[registeredAddresses[z]] == 1)
+        {
+          Agent memory a;
+          a.myAddress = registeredAddresses[z];
+          listOfAgents.push(a);
+        }
+      }
+
+  }
+
+  
