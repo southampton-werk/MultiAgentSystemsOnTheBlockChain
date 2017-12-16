@@ -1,0 +1,203 @@
+{
+  "contractName": "Vote",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "return5",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60606040523415600e57600080fd5b609f8061001c6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680639d41579d146044575b600080fd5b3415604e57600080fd5b6054606a565b6040518082815260200191505060405180910390f35b600060059050905600a165627a7a72305820b7eb8c5e62938723d555b8f5b166d71273554124cca37c5ffdfe35e25b5806c10029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680639d41579d146044575b600080fd5b3415604e57600080fd5b6054606a565b6040518082815260200191505060405180910390f35b600060059050905600a165627a7a72305820b7eb8c5e62938723d555b8f5b166d71273554124cca37c5ffdfe35e25b5806c10029",
+  "sourceMap": "51:103:2:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "51:103:2:-;;;;;;;;;;;;;;;;;;;;;;;;72:77;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;116:4;142:1;135:8;;72:77;:::o",
+  "source": "pragma solidity ^0.4.17;\r\nimport \"./MyLib.sol\";\r\n\r\ncontract Vote {\r\n\r\n  function return5() public constant returns (uint) {\r\n\r\n        return 5;\r\n  }\r\n\r\n}\r\n",
+  "sourcePath": "C:\\Users\\JakeL\\Desktop\\Simple\\contracts\\Vote.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/JakeL/Desktop/Simple/contracts/Vote.sol",
+      "exportedSymbols": {
+        "Vote": [
+          226
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 216,
+        "name": "PragmaDirective",
+        "src": "0:24:2"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 215,
+          "absolutePath": "/C/Users/JakeL/Desktop/Simple/contracts/MyLib.sol",
+          "file": "./MyLib.sol",
+          "scope": 227,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 217,
+        "name": "ImportDirective",
+        "src": "26:21:2"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            226
+          ],
+          "name": "Vote",
+          "scope": 227
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "return5",
+              "payable": false,
+              "scope": 226,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 218,
+                "name": "ParameterList",
+                "src": "88:2:2"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 225,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 219,
+                        "name": "ElementaryTypeName",
+                        "src": "116:4:2"
+                      }
+                    ],
+                    "id": 220,
+                    "name": "VariableDeclaration",
+                    "src": "116:4:2"
+                  }
+                ],
+                "id": 221,
+                "name": "ParameterList",
+                "src": "115:6:2"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 221
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "hexvalue": "35",
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "subdenomination": null,
+                          "token": "number",
+                          "type": "int_const 5",
+                          "value": "5"
+                        },
+                        "id": 222,
+                        "name": "Literal",
+                        "src": "142:1:2"
+                      }
+                    ],
+                    "id": 223,
+                    "name": "Return",
+                    "src": "135:8:2"
+                  }
+                ],
+                "id": 224,
+                "name": "Block",
+                "src": "122:27:2"
+              }
+            ],
+            "id": 225,
+            "name": "FunctionDefinition",
+            "src": "72:77:2"
+          }
+        ],
+        "id": 226,
+        "name": "ContractDefinition",
+        "src": "51:103:2"
+      }
+    ],
+    "id": 227,
+    "name": "SourceUnit",
+    "src": "0:156:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {
+    "4447": {
+      "events": {},
+      "links": {},
+      "address": "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f"
+    }
+  },
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-08T00:56:43.301Z"
+}

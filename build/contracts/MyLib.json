@@ -1,0 +1,429 @@
+{
+  "contractName": "MyLib",
+  "abi": [],
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820db126830139a8a3108aca79fdbdab899949354edb12357f2d433ab360890850c0029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820db126830139a8a3108aca79fdbdab899949354edb12357f2d433ab360890850c0029",
+  "sourceMap": "28:389:1:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:389:1:-;;;;;",
+  "source": "pragma solidity ^0.4.17;\r\n\r\nlibrary MyLib {\r\n\r\n    struct Sink {\r\n      address myAddress;\r\n      string name;\r\n    }\r\n\r\n    struct Budget {\r\n      uint[] budget;\r\n    }\r\n\r\n    struct User {\r\n      address myAddress;\r\n      string name;\r\n    }\r\n    struct Agent {\r\n      User u;\r\n      Budget myBudget;\r\n      uint weight;\r\n    }\r\n\r\n    struct Coalition {\r\n      Budget current;\r\n      Agent[] listOfAgents;\r\n    }\r\n}\r\n",
+  "sourcePath": "C:\\Users\\JakeL\\Desktop\\Simple\\contracts\\MyLib.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/Users/JakeL/Desktop/Simple/contracts/MyLib.sol",
+      "exportedSymbols": {
+        "MyLib": [
+          214
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 186,
+        "name": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "library",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            214
+          ],
+          "name": "MyLib",
+          "scope": 215
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "MyLib.Sink",
+              "name": "Sink",
+              "scope": 214,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "myAddress",
+                  "scope": 191,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 187,
+                    "name": "ElementaryTypeName",
+                    "src": "72:7:1"
+                  }
+                ],
+                "id": 188,
+                "name": "VariableDeclaration",
+                "src": "72:17:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "name",
+                  "scope": 191,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string storage pointer"
+                    },
+                    "id": 189,
+                    "name": "ElementaryTypeName",
+                    "src": "98:6:1"
+                  }
+                ],
+                "id": 190,
+                "name": "VariableDeclaration",
+                "src": "98:11:1"
+              }
+            ],
+            "id": 191,
+            "name": "StructDefinition",
+            "src": "51:66:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "MyLib.Budget",
+              "name": "Budget",
+              "scope": 214,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "budget",
+                  "scope": 195,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256[] storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "length": null,
+                      "type": "uint256[] storage pointer"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 192,
+                        "name": "ElementaryTypeName",
+                        "src": "148:4:1"
+                      }
+                    ],
+                    "id": 193,
+                    "name": "ArrayTypeName",
+                    "src": "148:6:1"
+                  }
+                ],
+                "id": 194,
+                "name": "VariableDeclaration",
+                "src": "148:13:1"
+              }
+            ],
+            "id": 195,
+            "name": "StructDefinition",
+            "src": "125:44:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "MyLib.User",
+              "name": "User",
+              "scope": 214,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "myAddress",
+                  "scope": 200,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 196,
+                    "name": "ElementaryTypeName",
+                    "src": "198:7:1"
+                  }
+                ],
+                "id": 197,
+                "name": "VariableDeclaration",
+                "src": "198:17:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "name",
+                  "scope": 200,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string storage pointer"
+                    },
+                    "id": 198,
+                    "name": "ElementaryTypeName",
+                    "src": "224:6:1"
+                  }
+                ],
+                "id": 199,
+                "name": "VariableDeclaration",
+                "src": "224:11:1"
+              }
+            ],
+            "id": 200,
+            "name": "StructDefinition",
+            "src": "177:66:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "MyLib.Agent",
+              "name": "Agent",
+              "scope": 214,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "u",
+                  "scope": 207,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct MyLib.User storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "User",
+                      "referencedDeclaration": 200,
+                      "type": "struct MyLib.User storage pointer"
+                    },
+                    "id": 201,
+                    "name": "UserDefinedTypeName",
+                    "src": "271:4:1"
+                  }
+                ],
+                "id": 202,
+                "name": "VariableDeclaration",
+                "src": "271:6:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "myBudget",
+                  "scope": 207,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct MyLib.Budget storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Budget",
+                      "referencedDeclaration": 195,
+                      "type": "struct MyLib.Budget storage pointer"
+                    },
+                    "id": 203,
+                    "name": "UserDefinedTypeName",
+                    "src": "286:6:1"
+                  }
+                ],
+                "id": 204,
+                "name": "VariableDeclaration",
+                "src": "286:15:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "weight",
+                  "scope": 207,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 205,
+                    "name": "ElementaryTypeName",
+                    "src": "310:4:1"
+                  }
+                ],
+                "id": 206,
+                "name": "VariableDeclaration",
+                "src": "310:11:1"
+              }
+            ],
+            "id": 207,
+            "name": "StructDefinition",
+            "src": "249:80:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "MyLib.Coalition",
+              "name": "Coalition",
+              "scope": 214,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "current",
+                  "scope": 213,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct MyLib.Budget storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Budget",
+                      "referencedDeclaration": 195,
+                      "type": "struct MyLib.Budget storage pointer"
+                    },
+                    "id": 208,
+                    "name": "UserDefinedTypeName",
+                    "src": "363:6:1"
+                  }
+                ],
+                "id": 209,
+                "name": "VariableDeclaration",
+                "src": "363:14:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "listOfAgents",
+                  "scope": 213,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct MyLib.Agent storage ref[] storage pointer",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "length": null,
+                      "type": "struct MyLib.Agent storage ref[] storage pointer"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Agent",
+                          "referencedDeclaration": 207,
+                          "type": "struct MyLib.Agent storage pointer"
+                        },
+                        "id": 210,
+                        "name": "UserDefinedTypeName",
+                        "src": "386:5:1"
+                      }
+                    ],
+                    "id": 211,
+                    "name": "ArrayTypeName",
+                    "src": "386:7:1"
+                  }
+                ],
+                "id": 212,
+                "name": "VariableDeclaration",
+                "src": "386:20:1"
+              }
+            ],
+            "id": 213,
+            "name": "StructDefinition",
+            "src": "337:77:1"
+          }
+        ],
+        "id": 214,
+        "name": "ContractDefinition",
+        "src": "28:389:1"
+      }
+    ],
+    "id": 215,
+    "name": "SourceUnit",
+    "src": "0:419:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {
+    "4447": {
+      "events": {},
+      "links": {},
+      "address": "0x345ca3e014aaf5dca488057592ee47305d9b3e10"
+    }
+  },
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-08T00:56:43.293Z"
+}
