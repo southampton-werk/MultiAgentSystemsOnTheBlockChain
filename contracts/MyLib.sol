@@ -3,12 +3,8 @@ pragma solidity ^0.4.17;
 library MyLib {
 
     struct Sink {
-      address myAddress;
+      address spender;
       string name;
-    }
-
-    struct Budget {
-      uint[] budget;
     }
 
     struct User {
@@ -17,12 +13,12 @@ library MyLib {
     }
     struct Agent {
       User u;
-      Budget myBudget;
+      uint[] budget;
       uint weight;
     }
 
     struct Coalition {
-      Budget current;
-      Agent[] listOfAgents;
+      uint[] current;
+      uint[] listOfAgents;
     }
 }

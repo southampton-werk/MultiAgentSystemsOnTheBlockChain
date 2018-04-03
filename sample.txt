@@ -1,46 +1,24 @@
-Club.deployed().then(function(instance){return instance.isRegistered.call({from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});})
-Club.deployed().then(function(instance){return instance.register("ava",{from: "0xf17f52151ebef6c7334fad080c5704d77216b732",value: 600});})
-Club.deployed().then(function(instance){return instance.register('jake',{value: 600});})
-Club.deployed().then(function(instance){return instance.isRegistered.call();})
-
-Club.deployed().then(function(instance){return instance.vote.call("0xf17f52151ebef6c7334fad080c5704d77216b732");})
-Club.deployed().then(function(instance){return instance.countVotes.call();})
-
-Club.deployed().then(function(instance){return instance.outputReps.call(1);}).then(function(value){return value});
-
-Club.deployed().then(function(instance){return instance.useVote.call("0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f");}).then(function(value){return value.toNumber()});
-
-
-Club.deployed().then(function(instance){return instance.subsidize({from: "0xf17f52151ebef6c7334fad080c5704d77216b732",value: 1000});})
-Club.deployed().then(function(instance){return instance.seeContractBalance.call();}).then(function(value){return value.toNumber()});
-Club.deployed().then(function(instance){return instance.listRegisteredUsers.call();}).then(function(value){return value});
-Club.deployed().then(function(instance){return instance.numberOfRepresentatives.call();}).then(function(value){return value.toNumber()});
-
-Club.deployed().then(function(instance){Club=instance})
-
-function countVotes() public {
-      //should be able to prioritise
-
-      for (uint i = 0; i < registeredAddresses.length; i++) {
-        if(voteCount[registeredAddresses[i]] == 0)
-        {
-          voteCount[registeredAddresses[i]] = 1;
-        }
-        else
-        {
-          voteCount[registeredAddresses[i]] += 1;
-        }
-      }
-      //make this count better
-      for (uint z = 0; z < registeredAddresses.length; z++) {
-        if(voteCount[registeredAddresses[z]] == 1)
-        {
-          Agent memory a;
-          a.myAddress = registeredAddresses[z];
-          listOfAgents.push(a);
-        }
-      }
-
-  }
-
-  
+Club.deployed().then(function(instance){Club=instance});
+Club.register("jake",{value: 600,from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"});
+Club.register("avaa",{value: 600,from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});
+Club.register("xavi",{value: 600,from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"});
+Club.register("kath",{value: 600,from: "0x0d1d4e623d10f9fba5db95830f7d3839406c6af2"});
+Club.register("troy",{value: 600,from: "0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e"});
+Club.listRegisteredUsers(0);
+Club.apply({from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"});
+Club.apply({from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});
+Club.apply({from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"});
+Club.startVote();
+Club.vote(["0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0xf17f52151ebef6c7334fad080c5704d77216b732","0x821aea9a577a9b44299b9c15c88cf3087f3b5544"],{from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});
+Club.vote(["0x821aea9a577a9b44299b9c15c88cf3087f3b5544","0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0xf17f52151ebef6c7334fad080c5704d77216b732"],{from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"});
+Club.vote(["0x821aea9a577a9b44299b9c15c88cf3087f3b5544","0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0xf17f52151ebef6c7334fad080c5704d77216b732"],{from: "0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e"});
+Club.vote(["0xf17f52151ebef6c7334fad080c5704d77216b732","0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0x821aea9a577a9b44299b9c15c88cf3087f3b5544"],{from: "0x0d1d4e623d10f9fba5db95830f7d3839406c6af2"});
+Club.vote(["0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0x821aea9a577a9b44299b9c15c88cf3087f3b5544","0xf17f52151ebef6c7334fad080c5704d77216b732"],{from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"});
+Club.showVotes(0);
+Club.endVote();
+Club.showUnsortedCopeland();
+Club.weightCandidates([0,1,2]);
+Club.listRepresentives(0);
+Club.submitSink("0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e","socials")
+Club.listSinks(0)
+Club.submitBudget([10,10,80],{from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"})

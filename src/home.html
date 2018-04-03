@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Club</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <ul>
+      <li><a href="index.html">Register</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="vote.html">Vote</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  <h1>Show User</h1>
+  <input type="text" id="Number" />
+  <a href="#" onclick="getUser(parseInt(document.getElementById('Number').value))" class="btn btn-primary">Show</a>
+  <h1>User List</h1>
+  <a href="#" onclick="outputAllUsers()" class="btn btn-primary">Refresh</a>
+  <h3>Users</h3>
+  <div id="Users"></div>
+  <h1>Apply</h1>
+  <a href="#" onclick="apply()" class="btn btn-primary">Apply</a>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
