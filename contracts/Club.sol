@@ -9,7 +9,7 @@ contract Club {
   uint public registrationCost;
   uint public termLength;
   MyLib.User[] registeredUser;
-  MyLib.User[] candidates;
+  uint[] candidates;
   address[][] votes;
   mapping (address => bool) public voted;
   bool public voteStarted = false;
@@ -54,16 +54,20 @@ contract Club {
   }
   //second order copeland
   function countVotes() internal {
-    //stack was full
     uint i;
     uint p;
     uint[] memory copelandScore = new uint[](candidates.length);
     uint[][] memory defeated = new uint[][](copelandScore.length);
-    defeated[copelandScore.length - 1] = new uint[](copelandScore.length);
+
+    //init2d array
+    for (i = 0; i < copelandScore.length; i++)
+    {
+      defeated[i] = new uint[](copelandScore.length);
+    }
+
     //pairwise each candidate against each other
     for (i = 0; i < copelandScore.length - 1; i++)
     {
-      defeated[i] = new uint[](copelandScore.length);
       for (p = 1 + i; p < copelandScore.length; p++)
       {
         uint pairwise = pairwiseComparison(i,p);
@@ -78,18 +82,17 @@ contract Club {
         }
       }
     }
+
     //add up the copeland scores of defeated users
     uint[] memory secondOrderCopeland = new uint[](copelandScore.length);
     for(i =0; i < copelandScore.length; i++)
     {
-      for(p = 0; p < copelandScore[i]; p++)
-      {
-        secondOrderCopeland[i] += copelandScore[defeated[i][p]];
-      }
-
+        secondOrderCopeland[i] = copelandScore[i];
     }
+
     uint[] memory ranked = new uint[](copelandScore.length);
-    uint[] memory sortedSecondOrderCopeland = sort(secondOrderCopeland);
+    uint[] memory sortedSecondOrderCopeland = sort(copy(secondOrderCopeland));
+
     for(i=0; i < copelandScore.length; i ++ )
     {
       for(p=0; p < copelandScore.length; p ++ )
@@ -97,12 +100,23 @@ contract Club {
         if(sortedSecondOrderCopeland[i] == secondOrderCopeland[p])
         {
           ranked[i] = p;
-          sortedSecondOrderCopeland[p] = copelandScore.length  * copelandScore.length;
+          secondOrderCopeland[p] = copelandScore.length  * copelandScore.length;
         }
       }
     }
+
     weightCandidates(ranked);
 
+  }
+
+  function copy(uint[] toCopy) internal pure returns (uint[])
+  {
+    uint[] memory copyTo = new uint[](toCopy.length);
+    for(uint i = 0; i < toCopy.length; i ++)
+    {
+      copyTo[i] = toCopy[i];
+    }
+    return copyTo;
   }
   function pairwiseComparison(uint i, uint p) internal constant returns (uint)
   {
@@ -110,7 +124,7 @@ contract Club {
     uint scorep = 0;
     for(uint z =0; z < votes.length; z ++)
     {
-      if (scorei < votes.length / 2 && scorep < votes.length /2)
+      if (scorei <= votes.length / 2 && scorep <= votes.length /2)
       {
         //if not seen its the highest
         uint ilocation = votes[z].length;
@@ -118,11 +132,11 @@ contract Club {
         for(uint j =0; j < votes[z].length; j ++)
         {
 
-          if(votes[z][j] == candidates[i].myAddress )
+          if(votes[z][j] == registeredUser[candidates[i]].myAddress )
           {
             ilocation = j;
           }
-          else if(votes[z][j] == candidates[p].myAddress )
+          else if(votes[z][j] == registeredUser[candidates[p]].myAddress )
           {
             plocation = j;
           }
@@ -131,7 +145,7 @@ contract Club {
         {
           scorei ++;
         }
-        else if(plocation > ilocation)
+        else if(plocation < ilocation)
         {
           scorep ++;
         }
@@ -158,14 +172,14 @@ contract Club {
     for (uint i = 0; i < numberOfRepresentatives; i++)
     {
       MyLib.Agent memory a;
-      a.u = ranked[i];
+      a.u = candidates[ranked[i]];
       a.weight = 1;
       listOfRepresentatives.push(a);
     }
     candidates.length = 0;
 
   }
-  function sort(uint[] data) public constant returns(uint[]) {
+  function sort(uint[] data) public returns (uint[]) {
     quickSort(data, int(0), int(data.length - 1));
     return data;
   }
@@ -213,16 +227,26 @@ contract Club {
     }
     //saves gass as dont have to look at candidates with no votes
     function apply() public {
-      if(!addressUsed(msg.sender,candidates))
+      if(!addressUsed(msg.sender,buildCandidateList()))
       {
         for (uint i = 0; i < registeredUser.length; i++)
         {
           if(registeredUser[i].myAddress == msg.sender)
           {
-            candidates.push(registeredUser[i]);
+            candidates.push(i);
           }
         }
       }
+    }
+
+    function buildCandidateList() internal constant returns (MyLib.User[])
+    {
+      MyLib.User[] memory userList = new MyLib.User[](candidates.length);
+      for(uint i = 0; i < candidates.length; i ++)
+      {
+        userList[i] = registeredUser[candidates[i]];
+      }
+      return userList;
     }
 
     function addressUsed(address sample, MyLib.User[] userList) internal pure returns (bool)
@@ -241,7 +265,7 @@ contract Club {
     {
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
-        if(candidates[listOfRepresentatives[i].u].myAddress == msg.sender)
+        if(registeredUser[listOfRepresentatives[i].u].myAddress == msg.sender)
         {
           listOfRepresentatives[i].budget = budget;
         }
@@ -294,7 +318,7 @@ contract Club {
 
     function listCandidates(uint number) public constant returns (string,address) {
 
-      return (candidates[number].name, candidates[number].myAddress);
+      return (registeredUser[candidates[number]].name, registeredUser[candidates[number]].myAddress);
     }
 
     function getCandidatesLength() public constant returns (uint)
@@ -304,7 +328,7 @@ contract Club {
 
     function listRepresentives(uint number) public constant returns (string,address,uint,uint[]) {
 
-      return (candidates[listOfRepresentatives[number].u].name, candidates[listOfRepresentatives[number].u].myAddress, listOfRepresentatives[number].weight,listOfRepresentatives[number].budget);
+      return (registeredUser[listOfRepresentatives[number].u].name, registeredUser[listOfRepresentatives[number].u].myAddress, listOfRepresentatives[number].weight,listOfRepresentatives[number].budget);
     }
 
     function getRepresentivesLength() public constant returns (uint)
@@ -326,5 +350,6 @@ contract Club {
     {
       return votes[number];
     }
+
 
   }

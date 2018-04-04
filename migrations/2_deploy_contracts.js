@@ -5,5 +5,5 @@ var MyLib = artifacts.require("MyLib");
 
 module.exports = function(deployer) {
   deployer.deploy(MyLib);
-  deployer.deploy(Club,3,2,500,1000);
+  deployer.deploy(Club,5,2,500,1000);
 };
