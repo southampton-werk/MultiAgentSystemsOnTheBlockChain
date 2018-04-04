@@ -15,18 +15,9 @@ contract Club {
   bool public voteStarted = false;
   uint public timeVoteStarted =0;
   uint public timeVoteEnded =0;
-  bool public budgetSubmit = false;
-  uint public timeBudgetStarted =0;
-  uint[] public secondOrderCopelandUnsorted;
   MyLib.Agent[] listOfRepresentatives;
   MyLib.Sink[] listOfSinks;
   uint[] public finalBudget;
-
-  //this should be memory but i have to store it here for some reason
-  mapping (uint => uint[]) defeated;
-  mapping (uint => uint[]) currentCoalitions;
-  mapping (uint => uint[]) coalitionBudgets;
-
 
   function Club(uint reps, uint sinks, uint cost, uint term) public {
     numberOfRepresentatives = reps;
@@ -67,38 +58,52 @@ contract Club {
     uint i;
     uint p;
     uint[] memory copelandScore = new uint[](candidates.length);
-
+    uint[][] memory defeated = new uint[][](copelandScore.length);
+    defeated[copelandScore.length - 1] = new uint[](copelandScore.length);
     //pairwise each candidate against each other
-    for (i = 0; i < candidates.length - 1; i++)
+    for (i = 0; i < copelandScore.length - 1; i++)
     {
-      for (p = 1 + i; p < candidates.length; p++)
+      defeated[i] = new uint[](copelandScore.length);
+      for (p = 1 + i; p < copelandScore.length; p++)
       {
-          uint pairwise = pairwiseComparison(i,p);
-          if(pairwise == 0)
-          {
-            defeated[i].push(p);
-            copelandScore[i] ++;
-          }
-          else if (pairwise == 1) {
-            defeated[p].push(i);
-            copelandScore[p] ++;
-          }
+        uint pairwise = pairwiseComparison(i,p);
+        if(pairwise == 0)
+        {
+          defeated[i][copelandScore[i]] = p;
+          copelandScore[i] ++;
+        }
+        else if (pairwise == 1) {
+          defeated[p][copelandScore[p]] = i;
+          copelandScore[p] ++;
+        }
       }
     }
     //add up the copeland scores of defeated users
-    uint[] memory secondOrderCopeland = new uint[](candidates.length);
+    uint[] memory secondOrderCopeland = new uint[](copelandScore.length);
     for(i =0; i < copelandScore.length; i++)
     {
-      for(p = 0; p < defeated[i].length; p++)
+      for(p = 0; p < copelandScore[i]; p++)
       {
         secondOrderCopeland[i] += copelandScore[defeated[i][p]];
       }
-      //remove all from defeated
-      defeated[i].length = 0;
 
     }
-    secondOrderCopelandUnsorted = secondOrderCopeland;
-}
+    uint[] memory ranked = new uint[](copelandScore.length);
+    uint[] memory sortedSecondOrderCopeland = sort(secondOrderCopeland);
+    for(i=0; i < copelandScore.length; i ++ )
+    {
+      for(p=0; p < copelandScore.length; p ++ )
+      {
+        if(sortedSecondOrderCopeland[i] == secondOrderCopeland[p])
+        {
+          ranked[i] = p;
+          sortedSecondOrderCopeland[p] = copelandScore.length  * copelandScore.length;
+        }
+      }
+    }
+    weightCandidates(ranked);
+
+  }
   function pairwiseComparison(uint i, uint p) internal constant returns (uint)
   {
     uint scorei = 0;
@@ -148,6 +153,42 @@ contract Club {
       return 2;
     }
   }
+  function weightCandidates(uint[] ranked) public
+  {
+    for (uint i = 0; i < numberOfRepresentatives; i++)
+    {
+      MyLib.Agent memory a;
+      a.u = ranked[i];
+      a.weight = 1;
+      listOfRepresentatives.push(a);
+    }
+    candidates.length = 0;
+
+  }
+  function sort(uint[] data) public constant returns(uint[]) {
+    quickSort(data, int(0), int(data.length - 1));
+    return data;
+  }
+
+  function quickSort(uint[] memory arr, int left, int right) internal{
+    int i = left;
+    int j = right;
+    if(i==j) return;
+    uint pivot = arr[uint(left + (right - left) / 2)];
+    while (i <= j) {
+      while (arr[uint(i)] > pivot) i++;
+      while (pivot > arr[uint(j)]) j--;
+      if (i <= j) {
+        (arr[uint(i)], arr[uint(j)]) = (arr[uint(j)], arr[uint(i)]);
+        i++;
+        j--;
+      }
+    }
+    if (left < j)
+    quickSort(arr, left, j);
+    if (i < right)
+    quickSort(arr, i, right);
+  }
 
   function subsidize() public payable {}
 
@@ -196,43 +237,11 @@ contract Club {
       return false;
     }
 
-    function sortedCopeland(uint[] secondOrderCopelandSorted) internal constant returns(bool)
-    {
-      uint lastSeen = secondOrderCopelandUnsorted[secondOrderCopelandSorted[0]];
-      for (uint i = 1; i < secondOrderCopelandUnsorted.length; i++)
-      {
-        if(lastSeen < secondOrderCopelandUnsorted[secondOrderCopelandSorted[i]])
-        {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    function weightCandidates(uint[] secondOrderCopelandSorted) public
-    {
-
-      if(sortedCopeland(secondOrderCopelandSorted))
-      {
-        for (uint i = 0; i < numberOfRepresentatives; i++)
-        {
-          MyLib.Agent memory a;
-          a.u = candidates[secondOrderCopelandSorted[i]];
-          a.weight = 1;
-          listOfRepresentatives.push(a);
-        }
-        secondOrderCopelandUnsorted.length = 0;
-        candidates.length = 0;
-        budgetSubmit = true;
-        timeBudgetStarted = block.timestamp;
-      }
-    }
-
     function submitBudget(uint[] budget) public
     {
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
-        if(listOfRepresentatives[i].u.myAddress == msg.sender)
+        if(candidates[listOfRepresentatives[i].u].myAddress == msg.sender)
         {
           listOfRepresentatives[i].budget = budget;
         }
@@ -247,27 +256,29 @@ contract Club {
       listOfSinks.push(s);
     }
 
-    //
+
     function endBudgetSumbit() public
     {
-      if(timeBudgetStarted <= block.timestamp && budgetSubmit == true)
+      if(timeVoteEnded <= block.timestamp && voteStarted == false)
       {
-        budgetSubmit = false;
         decideBudget();
       }
     }
 
     function decideBudget() internal {
 
-      //init coalitions, everyone in their own coalition
+      uint[][] memory currentCoalitions = new uint[][](numberOfRepresentatives);
+      uint[][] memory coalitionBudgets = new uint[][](numberOfRepresentatives);
+      //init coalitions, everyone in their own coalition with their own budget
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
-        currentCoalitions[i].push(i);
+        currentCoalitions[i][0] = i;
         coalitionBudgets[i] = listOfRepresentatives[i].budget;
       }
 
 
     }
+
 
 
 
@@ -293,7 +304,7 @@ contract Club {
 
     function listRepresentives(uint number) public constant returns (string,address,uint,uint[]) {
 
-      return (listOfRepresentatives[number].u.name, listOfRepresentatives[number].u.myAddress, listOfRepresentatives[number].weight,listOfRepresentatives[number].budget);
+      return (candidates[listOfRepresentatives[number].u].name, candidates[listOfRepresentatives[number].u].myAddress, listOfRepresentatives[number].weight,listOfRepresentatives[number].budget);
     }
 
     function getRepresentivesLength() public constant returns (uint)
@@ -315,19 +326,5 @@ contract Club {
     {
       return votes[number];
     }
-
-
-    function showUnsortedCopeland() public constant returns(uint[])
-    {
-      return secondOrderCopelandUnsorted;
-    }
-
-
-
-
-
-
-
-
 
   }

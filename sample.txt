@@ -16,8 +16,6 @@ Club.vote(["0xf17f52151ebef6c7334fad080c5704d77216b732","0xc5fdf4076b8f3a5357c5e
 Club.vote(["0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef","0x821aea9a577a9b44299b9c15c88cf3087f3b5544","0xf17f52151ebef6c7334fad080c5704d77216b732"],{from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"});
 Club.showVotes(0);
 Club.endVote();
-Club.showUnsortedCopeland();
-Club.weightCandidates([0,1,2]);
 Club.listRepresentives(0);
 Club.submitSink("0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e","socials")
 Club.listSinks(0)

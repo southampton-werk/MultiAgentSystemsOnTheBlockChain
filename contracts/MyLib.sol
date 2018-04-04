@@ -12,7 +12,7 @@ library MyLib {
       string name;
     }
     struct Agent {
-      User u;
+      uint u;
       uint[] budget;
       uint weight;
     }
