@@ -71,6 +71,7 @@ contract Club {
       for (p = 1 + i; p < copelandScore.length; p++)
       {
         uint pairwise = pairwiseComparison(i,p);
+
         if(pairwise == 0)
         {
           defeated[i][copelandScore[i]] = p;
@@ -80,6 +81,8 @@ contract Club {
           defeated[p][copelandScore[p]] = i;
           copelandScore[p] ++;
         }
+
+
       }
     }
 
@@ -87,11 +90,18 @@ contract Club {
     uint[] memory secondOrderCopeland = new uint[](copelandScore.length);
     for(i =0; i < copelandScore.length; i++)
     {
-        secondOrderCopeland[i] = copelandScore[i];
+      if(copelandScore[i] != 0)
+      {
+        for(p =0; p < copelandScore[i] ; p++)
+        {
+          secondOrderCopeland[i] += copelandScore[defeated[i][p]];
+        }
+      }
     }
 
     uint[] memory ranked = new uint[](copelandScore.length);
     uint[] memory sortedSecondOrderCopeland = sort(copy(secondOrderCopeland));
+
 
     for(i=0; i < copelandScore.length; i ++ )
     {
@@ -101,6 +111,7 @@ contract Club {
         {
           ranked[i] = p;
           secondOrderCopeland[p] = copelandScore.length  * copelandScore.length;
+          break;
         }
       }
     }
