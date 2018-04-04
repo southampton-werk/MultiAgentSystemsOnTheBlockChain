@@ -120,6 +120,7 @@ contract Club {
 
   }
 
+
   function copy(uint[] toCopy) internal pure returns (uint[])
   {
     uint[] memory copyTo = new uint[](toCopy.length);
@@ -133,32 +134,29 @@ contract Club {
   {
     uint scorei = 0;
     uint scorep = 0;
-    for(uint z =0; z < votes.length; z ++)
+    uint voteLength = votes.length;
+    address iaddress = registeredUser[candidates[i]].myAddress;
+    address paddress = registeredUser[candidates[p]].myAddress;
+
+    for(uint z =0; z < voteLength; z ++)
     {
-      if (scorei <= votes.length / 2 && scorep <= votes.length /2)
+      if (scorei <= voteLength / 2 && scorep <= voteLength /2)
       {
         //if not seen its the highest
-        uint ilocation = votes[z].length;
-        uint plocation = votes[z].length;
-        for(uint j =0; j < votes[z].length; j ++)
+        uint votezlength = votes[z].length;
+        for(uint j =0; j < votezlength; j ++)
         {
-
-          if(votes[z][j] == registeredUser[candidates[i]].myAddress )
+          address voteaddress = votes[z][j];
+          if(voteaddress == iaddress )
           {
-            ilocation = j;
+            scorei ++;
+            break;
           }
-          else if(votes[z][j] == registeredUser[candidates[p]].myAddress )
+          else if(voteaddress == paddress )
           {
-            plocation = j;
+            scorep ++;
+            break;
           }
-        }
-        if(ilocation < plocation)
-        {
-          scorei ++;
-        }
-        else if(plocation < ilocation)
-        {
-          scorep ++;
         }
       }
       else{
@@ -252,8 +250,9 @@ contract Club {
 
     function buildCandidateList() internal constant returns (MyLib.User[])
     {
-      MyLib.User[] memory userList = new MyLib.User[](candidates.length);
-      for(uint i = 0; i < candidates.length; i ++)
+      uint candidatesLength = candidates.length;
+      MyLib.User[] memory userList = new MyLib.User[](candidatesLength);
+      for(uint i = 0; i < candidatesLength; i ++)
       {
         userList[i] = registeredUser[candidates[i]];
       }
