@@ -29,7 +29,12 @@ Club.vote(["0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e","0x821aea9a577a9b44299b9
 Club.showVotes(0);
 Club.endVote();
 Club.listRepresentives(0);
-Club.submitSink("0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e","socials")
-Club.listSinks(0)
-Club.submitBudget([10,10,80],{from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"})
-501115
+Club.submitSink("0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e","socials");
+Club.listSinks(0);
+Club.submitBudget([20,30,50],{from: "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"});
+Club.submitBudget([10,10,80],{from: "0xf17f52151ebef6c7334fad080c5704d77216b732"});
+Club.submitBudget([10,10,80],{from: "0x0d1d4e623d10f9fba5db95830f7d3839406c6af2"});
+Club.submitBudget([40,40,20],{from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"});
+Club.submitBudget([80,15,5],{from: "0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e"});
+Club.decideBudget();
+Club.listFinalBudget(0);

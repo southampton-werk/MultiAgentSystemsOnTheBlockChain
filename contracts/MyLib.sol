@@ -17,8 +17,4 @@ library MyLib {
       uint weight;
     }
 
-    struct Coalition {
-      uint[] current;
-      uint[] listOfAgents;
-    }
 }
