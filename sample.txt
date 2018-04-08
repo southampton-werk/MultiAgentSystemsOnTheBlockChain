@@ -38,3 +38,4 @@ Club.submitBudget([40,40,20],{from: "0x821aea9a577a9b44299b9c15c88cf3087f3b5544"
 Club.submitBudget([80,15,5],{from: "0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e"});
 Club.decideBudget();
 Club.listFinalBudget(0);
+1755361

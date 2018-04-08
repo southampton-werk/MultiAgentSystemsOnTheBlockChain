@@ -309,29 +309,29 @@ contract Club {
 
     function decideBudget() public
     {
+      //these are used alot therfore store in stack
       uint numberOfRepresentativesMemory = numberOfRepresentatives;
+      uint quotaMemory = quota;
       uint[][] memory coalitionBudgets = new uint[][](numberOfRepresentativesMemory);
       uint[] memory coalitionSize = new uint[](numberOfRepresentativesMemory);
       uint[] memory playerToCoalition = new uint[](numberOfRepresentativesMemory);
+      MyLib.Agent[] memory playerToAgent = new MyLib.Agent[](numberOfRepresentativesMemory);
 
       uint i;
       //init
       for (i = 0; i < numberOfRepresentativesMemory; i++)
       {
-        coalitionBudgets[i] = listOfRepresentatives[i].budget;
+        playerToAgent[i] = listOfRepresentatives[i];
+        coalitionBudgets[i] =  playerToAgent[i].budget;
         coalitionSize[i] = 1;
         playerToCoalition[i] = i;
       }
-
-      uint round = 0;
-
-      while(winningCoalition(playerToCoalition,numberOfRepresentativesMemory) == numberOfRepresentativesMemory)
+      //stack was full had to make player and round the same
+      uint player = 0;
+      while(winningCoalition(playerToCoalition,numberOfRepresentativesMemory,playerToAgent,quotaMemory) == numberOfRepresentativesMemory)
       {
-        uint player = round % numberOfRepresentativesMemory;
-        MyLib.Agent memory agent = listOfRepresentatives[player];
         //get utility in the current coalition
-        uint currentUtility = calculateUtility(coalitionBudgets[playerToCoalition[player]],agent.budget,coalitionSize[player]);
-        uint[] memory bestOffer = new uint[](1);
+        uint[] memory bestOffer = new uint[](2);
         uint bestCoalition = numberOfRepresentativesMemory;
 
         for(i = 0; i < numberOfRepresentativesMemory; i ++)
@@ -339,9 +339,9 @@ contract Club {
           //dont check coalitions with no one or the one your in
           if(playerToCoalition[player] != i && coalitionSize[i] != 0)
           {
-            if(currentUtility +  calculate100Utility(coalitionSize[i]) < calculate100Utility(coalitionSize[i] + agent.weight) + calculateUtility(agent.budget, coalitionBudgets[i], coalitionSize[i] + agent.weight))
+            if(calculateUtility(coalitionBudgets[playerToCoalition[player]],playerToAgent[player].budget,coalitionSize[player],quotaMemory) +  calculate100Utility(coalitionSize[i],quotaMemory) < calculate100Utility(coalitionSize[i] + playerToAgent[player].weight,quotaMemory) + calculateUtility(playerToAgent[player].budget, coalitionBudgets[i], coalitionSize[i] + playerToAgent[player].weight,quotaMemory))
             {
-              uint[] memory nego = negotiate(calculate100Utility(coalitionSize[i] + agent.weight), calculateUtility(agent.budget, coalitionBudgets[i], coalitionSize[i] + agent.weight),currentUtility, calculate100Utility(coalitionSize[i]));
+              uint[] memory nego = negotiate(calculate100Utility(coalitionSize[i] + playerToAgent[player].weight,quotaMemory), calculateUtility(playerToAgent[player].budget, coalitionBudgets[i], coalitionSize[i] + playerToAgent[player].weight,quotaMemory),calculateUtility(coalitionBudgets[playerToCoalition[player]],playerToAgent[player].budget,coalitionSize[player],quotaMemory), calculate100Utility(coalitionSize[i],quotaMemory));
               if(nego[0] > bestOffer[0])
               {
                 bestOffer = nego;
@@ -354,33 +354,39 @@ contract Club {
 
         if(bestCoalition != numberOfRepresentativesMemory)
         {
-          coalitionBudgets[bestCoalition] = negoToBudget(agent.budget, coalitionBudgets[bestCoalition], bestOffer, coalitionSize[bestCoalition] + agent.weight);
-          coalitionSize[playerToCoalition[player]] -= agent.weight;
-          coalitionSize[bestCoalition] += agent.weight;
+          coalitionBudgets[bestCoalition] = negoToBudget(playerToAgent[player].budget, coalitionBudgets[bestCoalition], bestOffer, coalitionSize[bestCoalition] + playerToAgent[player].weight,quotaMemory);
+          coalitionSize[playerToCoalition[player]] -= playerToAgent[player].weight;
+          coalitionSize[bestCoalition] += playerToAgent[player].weight;
           playerToCoalition[player] = bestCoalition;
 
         }
 
-        round ++;
+        if(player == numberOfRepresentativesMemory - 1)
+        {
+          player = 0;
+        }
+        else{
+          player ++;
+        }
         coalitionSizeFactor += coalitionSizeFactorIncrease;
 
       }
 
-      finalBudget = coalitionBudgets[winningCoalition(playerToCoalition,numberOfRepresentativesMemory)];
+      finalBudget = coalitionBudgets[winningCoalition(playerToCoalition,numberOfRepresentativesMemory,playerToAgent,quotaMemory)];
 
     }
 
-    function winningCoalition(uint[] playerToCoalition, uint numberOfRepresentativesMemory) constant internal returns (uint)
+    function winningCoalition(uint[] playerToCoalition, uint numberOfRepresentativesMemory,MyLib.Agent[] playerToAgent,uint quotaMemory) constant internal returns (uint)
     {
       uint[] memory weights = new uint[](numberOfRepresentativesMemory);
       //add all the weights
       for (uint i = 0; i < numberOfRepresentativesMemory ; i++)
       {
-        weights[playerToCoalition[i]] += listOfRepresentatives[i].weight;
+        weights[playerToCoalition[i]] += playerToAgent[i].weight;
       }
       for (i = 0; i < numberOfRepresentativesMemory ; i++)
       {
-        if(weights[i] >= quota)
+        if(weights[i] >= quotaMemory)
         {
           return i;
         }
@@ -388,17 +394,16 @@ contract Club {
       return numberOfRepresentativesMemory;
     }
 
-    function calculate100Utility(uint coalitionSize) constant internal returns (uint)
+    function calculate100Utility(uint coalitionSize,uint quotaMemory) constant internal returns (uint)
     {
-      uint shared = 100;
-      return (uint) ((coalitionSizeFactor * shared) / (quota + 1 - coalitionSize) + ((100-coalitionSizeFactor) * shared));
+      return (uint) ((coalitionSizeFactor * 100) / (quotaMemory + 1 - coalitionSize) + ((100-coalitionSizeFactor) * 100));
     }
 
-    function calculateUtility(uint[] budget1,uint[] budget2, uint coalitionSize) constant internal returns (uint)
+    function calculateUtility(uint[] budget1,uint[] budget2, uint coalitionSize,uint quotaMemory) constant internal returns (uint)
     {
 
       uint shared = sharedBudget(budget1,budget2);
-      return (uint) ((coalitionSizeFactor * shared) / (quota + 1 - coalitionSize) + ((100-coalitionSizeFactor) * shared));
+      return (uint) ((coalitionSizeFactor * shared) / (quotaMemory + 1 - coalitionSize) + ((100-coalitionSizeFactor) * shared));
     }
 
     function sharedBudget(uint[] budget1,uint[] budget2) constant internal returns (uint)
@@ -461,14 +466,14 @@ contract Club {
 
     }
 
-    function negoToBudget(uint[] budget1, uint [] budget2, uint[] nego, uint coalitionSize) constant public returns (uint[])
+    function negoToBudget(uint[] budget1, uint [] budget2, uint[] nego, uint coalitionSize,uint quotaMemory) constant public returns (uint[])
     {
       uint[] memory newBudget = new uint[](numberOfSinks);
 
       uint sharedab = sharedBudget(budget1,budget2);
 
-      uint individuala = (uint) (nego[0] / ((coalitionSizeFactor / (quota + 1 - coalitionSize)) + (100 - coalitionSizeFactor)) - sharedab);
-      uint individualb = (uint) (nego[1] / ((coalitionSizeFactor / (quota + 1 - coalitionSize)) + (100 - coalitionSizeFactor))- sharedab);
+      uint individuala = (uint) (nego[0] / ((coalitionSizeFactor / (quotaMemory + 1 - coalitionSize)) + (100 - coalitionSizeFactor)) - sharedab);
+      uint individualb = (uint) (nego[1] / ((coalitionSizeFactor / (quotaMemory + 1 - coalitionSize)) + (100 - coalitionSizeFactor))- sharedab);
 
       uint suma = 0;
       uint sumb = 0;
