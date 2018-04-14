@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Club</title>
 
     <!-- Bootstrap -->
@@ -20,6 +21,7 @@
     <![endif]-->
   </head>
   <body>
+
     <!-- Navbar -->
 <div class="w3-top">
 <div class="w3-bar w3-black w3-card">
@@ -28,19 +30,26 @@
   <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Home</a>
   <a href="settings.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Settings</a>
   <a href="vote.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Vote</a>
-      <a href="representative.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Representative</a>
+  <a href="representative.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Representative</a>
   <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
 </div>
 </div>
-  <h1>Show User</h1>
-  <input type="text" id="Number" />
-  <a href="#" onclick="getUser(parseInt(document.getElementById('Number').value))" class="btn btn-primary">Show</a>
-  <h1>User List</h1>
-  <a href="#" onclick="outputAllUsers()" class="btn btn-primary">Refresh</a>
-  <h3>Users</h3>
-  <div id="Users"></div>
-  <h1>Apply</h1>
-  <a href="#" onclick="apply()" class="btn btn-primary">Apply</a>
+<h1>Add Sink</h1>
+Address: <input type="text" id="Address" /> Name: <input type="text" id="Name" /> <br>
+<a href="#" onclick="addSink(document.getElementById('Address').value,document.getElementById('Name').value)" class="btn btn-primary">Add</a>
+
+<h1>Sink List</h1>
+<a href="#" onclick="outputAllSinks()" class="btn btn-primary">Refresh</a>
+<h3>Sinks</h3>
+<div id="Sinks"></div>
+
+
+Budget: <input type="number" id="BudgetNumber" />
+<a href="#" onclick="addBudget(document.getElementById('BudgetNumber').value)" class="btn btn-primary">Add</a>
+
+<textarea id="CurrentBudget" cols=250>Current Budget: </textarea>
+<a href="#" onclick="resetBudget()" class="btn btn-primary">Reset Budget</a>
+<a href="#" onclick="submitBudget()" class="btn btn-primary">Submit Budget</a>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -1,13 +1,7 @@
 body{
     font-family: 'open sans';
      margin-left: 80px;
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 200px;
-    background-color: #f1f1f1;
+     margin-top: 80px;
 }
 
 li a {

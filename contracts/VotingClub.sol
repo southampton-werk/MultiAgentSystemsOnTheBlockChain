@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.18;
 pragma experimental ABIEncoderV2;
 import "./MyLib.sol";
 import "./RegistrationClub.sol";
@@ -14,6 +14,7 @@ contract VotingClub is RegistrationClub {
   bool public voteStarted = false;
   uint public timeVoteStarted =0;
   uint public timeVoteEnded =0;
+  uint votingTime = 0;
 
     function VotingClub(uint cost, uint term, uint reps) RegistrationClub(cost) public {
         termLength = term;
@@ -62,11 +63,13 @@ contract VotingClub is RegistrationClub {
   }
   function endVote() public
   {
-    if(timeVoteStarted <= block.timestamp && voteStarted == true)
+    if(timeVoteStarted + votingTime <= block.timestamp && voteStarted == true)
     {
       voteStarted = false;
       timeVoteEnded = block.timestamp;
       countVotes();
+      candidates.length = 0;
+      votes.length = 0;
     }
 
   }

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.18;
 pragma experimental ABIEncoderV2;
 import "./MyLib.sol";
 contract RegistrationClub {
@@ -12,7 +12,7 @@ contract RegistrationClub {
   }
 
   function subsidize() public payable {}
-    
+
     function isRegistered() public constant returns (bool) {
       for (uint i = 0; i < registeredUser.length; i++) {
         if(registeredUser[i].myAddress == msg.sender)
@@ -46,6 +46,21 @@ contract RegistrationClub {
       return false;
     }
 
+    event message(string message, string name);
+
+    function chat(string text) public constant
+    {
+      for(uint i = 0; i < registeredUser.length; i ++)
+      {
+        if(registeredUser[i].myAddress == msg.sender)
+        {
+          message(text, registeredUser[i].name);
+        }
+      }
+    }
+
+
+
     function listRegisteredUsers(uint number) public constant returns (string,address) {
 
       return (registeredUser[number].name, registeredUser[number].myAddress);
@@ -54,6 +69,11 @@ contract RegistrationClub {
     function getRegisteredUsersLength() public constant returns (uint)
     {
       return registeredUser.length;
+    }
+
+    function getContractValue() public constant returns (uint)
+    {
+      return this.balance;
     }
 
 

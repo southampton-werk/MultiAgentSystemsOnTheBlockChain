@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Club</title>
 
@@ -19,33 +20,53 @@
     <![endif]-->
   </head>
   <body>
-    <ul>
-      <li><a href="index.html">Register</a></li>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="vote.html">Vote</a></li>
-      <li><a href="settings.html">Settings</a></li>
-    </ul>
+    <!-- Navbar -->
+<div class="w3-top">
+<div class="w3-bar w3-black w3-card">
+  <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+  <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Register</a>
+  <a href="home.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Home</a>
+  <a href="settings.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Settings</a>
+  <a href="vote.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Vote</a>
+    <a href="representative.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Representative</a>
+  <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+</div>
+</div>
   <textarea id="currentTime">Current Time: </textarea>
   <br>
   <h1>Contract Settings</h1>
-  <textarea id="numberOfRepresentatives">Number of Representatives: </textarea>
-  <br>
-  <textarea id="numberOfSinks">Number of Sinks: </textarea>
-  <br>
   <textarea id="registrationCost">Registation Cost: </textarea>
   <br>
-  <textarea id="termLength">Term Length: </textarea>
+  <textarea id="ContractValue">Contract Value: </textarea>
   <br>
   <h1>Vote Settings</h1>
+  <textarea id="termLength">Term Length: </textarea>
+  <br>
+  <textarea id="numberOfRepresentatives">Number of Representatives: </textarea>
+  <br>
   <textarea id="voteStarted">Vote Started: </textarea>
   <br>
   <textarea id="timeVoteStarted">Time Vote Started: </textarea>
   <br>
   <textarea id="timeVoteEnded">Time Vote Ended: </textarea>
   <br>
-
   <a href="#" onclick="startVote()" class="btn btn-primary">Start Vote</a>
   <a href="#" onclick="endVote()" class="btn btn-primary">End Vote</a>
+  <h1>Budget Settings</h1>
+  <textarea id="numberOfSinks">Number of Sinks: </textarea>
+  <br>
+  <textarea id="quota">Quota: </textarea>
+  <br>
+  <textarea id="gasCost">Gas Cost: </textarea>
+  <br>
+  <textarea id="numberOfTurns">Number of Turns: </textarea>
+  <br>
+  <textarea id="coalitionSizeFactor">Coalition Size Factor: </textarea>
+  <br>
+  <textarea id="coalitionSizeFactorIncrease">Coalition Size Factor Increase: </textarea>
+  <br>
+  <a href="#" onclick="decideBudget()" class="btn btn-primary">Decide Budget</a>
+  <a href="#" onclick="sendOut()" class="btn btn-primary">Send Out</a>
   <h1></h1>
   <a href="#" onclick="refreshSettings()" class="btn btn-primary">Refresh</a>
 
