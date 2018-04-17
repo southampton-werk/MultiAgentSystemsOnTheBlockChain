@@ -59,6 +59,11 @@ contract RegistrationClub {
       }
     }
 
+    function sayhi() public constant
+    {
+      message("hi","jake");
+    }
+
 
 
     function listRegisteredUsers(uint number) public constant returns (string,address) {

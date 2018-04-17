@@ -43,3 +43,4 @@ Club.listFinalBudget(0);
 Club.sendOut();
 Club.getContractValue();
 1755361
+Club.message().watch(function(error, result){if (!error){var hi = 5;} else {var hi = 3;}});

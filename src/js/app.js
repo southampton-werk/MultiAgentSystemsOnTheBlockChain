@@ -41,14 +41,33 @@ App = {
 $(function() {
   $(window).load(function() {
     App.init();
-
   });
 });
 
 
+function refreshChat() {
+
+  var clubInstance;
+  web3.eth.getAccounts(function(error, accounts) {
+    if (error) {
+      console.log(error);
+    }
+
+    var account = accounts[0];
+
+    App.contracts.Club.deployed().then(function(instance) {
+      clubInstance = instance;
+      clubInstance.message().watch(function(error, result){
+                   alert('hi');
+               });
+    })
+  });
+
+}
 
 //get price
 function register(name) {
+
   var clubInstance;
   web3.eth.getAccounts(function(error, accounts) {
     if (error) {

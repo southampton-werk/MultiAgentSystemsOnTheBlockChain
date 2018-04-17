@@ -1,0 +1,44 @@
+%% ----------------------------------------------------------------
+%% Gantt.tex
+%% ---------------------------------------------------------------- 
+\chapter{Gantt chart} \label{Chapter: Gantt chart}
+\begin{figure}[htbp]
+	\hspace*{-100px}% manually adjusted
+	\begin{ganttchart}[    
+	hgrid,    
+	vgrid,    
+	x unit=0.35cm,
+        y unit chart=0.5cm,
+        time slot format=simple
+        ]{0}{35} % width i think?
+	\gantttitle{Month}{36} \\
+	\gantttitle{Oct}{4} 
+	\gantttitle{Nov}{4} 
+	\gantttitle{Dec}{4} 
+	\gantttitle{Jan}{4} 
+	\gantttitle{Feb}{4} 
+	\gantttitle{Mar}{4} 
+	\gantttitle{Apr}{4} 
+	\gantttitle{May}{4}
+	\gantttitle{June}{4}
+	\\
+        % boxes   
+	\ganttbar[progress=100]{Write Brief}{0}{6} \\   
+	\ganttbar[progress=100]{Set Up Truffle }{5}{5} \\   
+	\ganttbar[progress=100]{Basic Registation Contract}{6}{6} \\   
+	\ganttbar[progress=70]{Reading}{0}{12} \\
+	\ganttbar[progress=100]{Budget Problem Definition}{5}{7} \\   
+	\ganttbar[progress=100]{Voting Problem Definition}{8}{8} \\   
+	\ganttbar[progress=80]{Budget Algorithm}{8}{10} \\   
+	\ganttbar[progress=100]{Voting algoithm}{10}{11}   \\
+	\ganttbar[progress=30]{Club Contract}{7}{19} \\   
+	\ganttbar[progress=0]{Budget Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=0]{Vote Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=0]{web3 Interface}{16}{25} \\
+	\ganttbar[progress=0]{Contract Builder}{16}{25} \\
+	\ganttbar[progress=0]{Testing}{23}{25} \\   
+	\ganttbar[progress=0]{Reduce Gas Cost}{13}{25} \\
+	\ganttbar[progress=0]{Secure Contract}{13}{25} \\
+	\ganttbar[progress=0]{Write Report}{26}{35}
+	\end{ganttchart}
+\end{figure}

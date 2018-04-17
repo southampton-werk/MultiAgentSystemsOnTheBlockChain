@@ -1,0 +1,41 @@
+%% ----------------------------------------------------------------
+%% Progress.tex
+%% ---------------------------------------------------------------- 
+\documentclass[oneside]{ecsproject}    % Use the progress Style
+\graphicspath{{../Figures/}}   % Location of your graphics files
+\usepackage{natbib}            % Use Natbib style for the refs.
+\hypersetup{colorlinks=true}   % Set to false for black/white printing
+\usepackage{pgfgantt} 
+\usepackage{setspace}
+ \usepackage{vmargin}
+%% ----------------------------------------------------------------
+\begin{document}
+\frontmatter
+\title      {Multi Agent Systems on the BlockChain}
+\authors    {\texorpdfstring
+             {\href{mailto:jal2g15@ecs.soton.ac.uk}{Jake Labelle}}
+             {Jake Labelle}
+            }
+\addresses  {\groupname\\\deptname\\\univname}
+\date       {\today}
+\subject    {}
+\keywords   {}
+\supervisor {Timothy Norman}
+\examiner   {Timothy Norman}
+\maketitle
+\tableofcontents
+\mainmatter
+%% ----------------------------------------------------------------
+%%\include{Introduction}
+\include{ProblemGoals}
+\include{BackgroundLit}
+\include{Design}
+\include{Implementation}
+\include{Testing}
+\include{Conclusions}
+\include{FutureWork}
+\backmatter
+\bibliographystyle{ecs}
+\bibliography{ECS}
+\end{document}
+%% ----------------------------------------------------------------

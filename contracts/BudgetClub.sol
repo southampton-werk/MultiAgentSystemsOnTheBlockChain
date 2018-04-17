@@ -107,9 +107,9 @@ contract BudgetClub is VotingClub {
     uint player = 0;
     while(winningCoalition(playerToCoalition,numberOfRepresentativesMemory,playerToAgent) == numberOfRepresentativesMemory)
     {
-      //get utility in the current coalition
       uint[] memory bestOffer = new uint[](2);
       uint bestCoalition = numberOfRepresentativesMemory;
+      //get utility in the current coalition
       uint myAfloor = afloor(coalitionBudgets[playerToCoalition[player]],playerToAgent[player].budget,coalitionSize[playerToCoalition[player]],quotaMemory);
       for(i = 0; i < numberOfRepresentativesMemory; i ++)
       {
