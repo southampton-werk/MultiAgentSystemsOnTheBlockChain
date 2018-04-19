@@ -8,7 +8,7 @@ One of my goals was that the owner of the system does not have any extra control
 Fee collection table here
 \\
 The benefits of the Clubs and Charites Account is that it costs 0 to run and set up, whereas it can be expensive to store data on the Blockchain. The problem is that only 3 members are required to access the account. This is made worse as the signatories would have to change annually which would require a lot of time and effort. Also if one of the signatories is busy, then the club would be unable to access the funds. Compared to the smart contract, which would do this automatically.  Another problem is that although the registration is legally non repudiable, a member would have to take the club to small claims to enforce it. Lastly the account is viewable by the signatories, therefore a regular member can not confirm how much money has been gathered and where it has spent. However a smart contract all members can see how much money has been gathered and where it has been spent.
-From this I decided that the best design was a smart contract, however care must be taken to keep the Gas (how many instruction used) used down. Also to monitor the Gas Price (cost miners are changing to run a instruction) which this year to date has fallen by 70\%, and the price of Ethereum in GBP. Also Another problem to consider is that if a user loses his private key to his Ethereum account it is unrecoverable and you will lose the ability to prove you registered.
+From this I decided that the best design was a smart contract, however care must be taken to keep the Gas (how many instruction used) used down. Also to monitor the Gas Price (cost miners are charging to run a instruction) which this year to date has fallen by 70\%, and the price of Ethereum in GBP. Also Another problem to consider is that if a user loses his private key to his Ethereum account it is unrecoverable and you will lose the ability to prove you registered.
 \section{How Registered Users Are Stored}
 A feature of blockchain is all data stored on it is publicly visible. Therefore, thought must be put into how much data is stored about each user. At minimum we must store the registered users public address. However storing only the users address will make it so communication and accountability is hindered, as a public address is long and non memorable, and will make it hard to see who said and did what. I decided that storing the address and name was the best compromise. In the rare situation two users had the same name and there was argument on who did what, it would not be too much effort for one of them to digitally sign using their private address.
 \section{Voting Algorithm}
@@ -28,15 +28,66 @@ Another decision is how many sinks (budget expenditures), should be allowed to b
 \\
 Also the system must have a system for submitting sinks. I have identified 3 ways to do this. First, all users have the ability, second all representatives have the ability and last, each sink is proposed and then voted on. The first option has the benefit that the system is more interactive for more users. However it is prone to abuse, as being a user only requires paying the fee, and a malicious person could fill up the sinks with bogus sinks.  The second option is less like to be abused, as representatives are likely to have a greater attachment to the club. The last option should prevent all abuse, however it is time consuming to have to vote on each sink, and could end up costing a lot of money to run each vote. Therefore I have decided on my second option.
 \section{When can Budget submit end}
-\section{Budget Negotiation Algorithm }
+\section{Budget Negotiation Algorithm}
 The first and easiest idea for deciding the budget was to take each representatives budget, sum each one and divide by number of representatives. This would be cheap to run and sounds fair. The problem occurs with that all budgets submitted are publicly viewable, and with this algorithm a representative could easily manipulate his budget to achieve the final budget he wanted. 
 A better algorithm would be for each representative to try and form coalitions with his peers, until the coalition reached a certain quota. This solves the problem of a representative submitting a extreme budget to manipulate the final budget, as the other representatives would just form a coalition without him.  
-The next step was to create a function which took a representative’s budget, their current coalition’s budget, and the current size of the coalition and returned the representative’s current utility. To make the utility easy to understand, the range of the function will be from 0 to 100. 100 utility would be when the coalition size is the quota and the coalition budget is the representatives preferred budget. The function I decided on was as followed.
 \\
-Next I had to decide how coalitions would be formed. The first step would be to initialise each representative with his own coalition with his preferred budget. From this point I had to decide whether representatives would take turns joining coalitions or coalitions would take turns inviting representatives. The negatives of coalitions inviting representatives is that larger coalitions would have more chance to have a representative stolen by another coalition and therefore take longer and cost more to calculate. The advantage is that there would be more negotiations and that should result in a more balanced budget. One problem with both of these solutions is that it could lead to a infinite loop and never end, however the joining coalitions method resulted in a lot less of them. Therefore I will use that method. Representatives will take turns, negotiating with each coalition, they will then compare their utility by joining their coalition and choose the coalition which offers the best utility, or stay in the current coalition if its better utility then all offers. 
-\\
-However any infinite loops are unacceptable in the algorithm. To solve this I came up with two solutions. First, representatives could be impatient, this means that a budget in round n is better than a budget in round m if n < m. Another method is to make the coalition size less relevant is earlier turns and make it more important in later turns. The first method allows representatives to look forward to later rounds in order to make an more informed decision. However to work out the single negotiation would be factorial, and therefore unusable with a medium number of representatives. For this reason I will use the second method. With the new utility function as follows.  
-\\
+Next I had to decide how coalitions would be formed. The first step would be to initialise each representative with his own coalition with his preferred budget. From this point I had to decide whether representatives would take turns joining coalitions or coalitions would take turns inviting representatives. The negatives of coalitions inviting representatives is that larger coalitions would have more chance to have a representative stolen by another coalition and therefore take longer and cost more to calculate. The advantage is that there would be more negotiations and that should result in a more balanced budget. One problem with both of these solutions is that it could lead to a infinite loop and never end, however the joining coalitions method resulted in a lot less of them. Therefore I will use that method. Representatives will take turns, negotiating with each coalition, they will then compare their utility by joining their coalition and choose the coalition which offers the best utility, or stay in the current coalition if its better utility then all offers. With the algorithm as follows.
+\begin{lstlisting}
+Agent[] Agents;
+Sink[] Sinks;
+Coalitions[] Coalitions;
+init Coalitions;
+round = 0;
+while(winningCoalition = false) {
+	player = Agents.get(round % Agents.size());
+	//its advantageous to be in a bigger coalition
+	currentUtility = utility(player,player.coalition.budget,player.coalition.size);
+	currentCoalition = myCoalition;
+	for(Coalition c: Coaltions) {
+		proposal = negotiate(player,c);
+		if(currentUtiltiy < proposal)
+			currentCoalition = c;
+			currentUtiltiy = proposal;
+		}
+	}
+	join current coalition, leave old one
+	round +=1
+}
+\end{lstlisting}
+\subsection{Calculating Utility}
+The next step was to create a function which took a representative’s budget , their current coalition’s budget, and the current size of the coalition and returned the representative’s current utility. To make the utility easy to understand, the range of the function will be from 0 to 100. 100 utility would be when the coalition size is the quota and the coalition budget is the representatives preferred budget. The function I decided on was as follows, with a being the representative and b being the coalition.
+\begin{lstlisting}
+shared = 0;
+for(i = 0; i < a.budget.length; i ++)
+{
+      if(a.budget[i] > b.budget[i])
+     {
+        shared += b.budget[i];
+      }
+      else{
+        shared += a.budget[i];
+      }
+}
+utility = shared /  quota  + 1 -  b.totalWeight
+\end{lstlisting}
+Although representatives joining coalitions reduces the number of infinite loops, any of them are unacceptable in my algorithm. To solve this I came up with two solutions. First, representatives could be impatient, this means that a budget in round n is better than a budget in round m if n < m. Another method is to make the coalition size less relevant is earlier turns and make it more important in later turns. The first method allows representatives to look forward to later rounds in order to make an more informed decision. However to work out the single negotiation would be factorial, and therefore unusable with a medium number of representatives wheras the second method is a constant effect on the number of instructions and therfore scales much better. For this reason I will use the second method. With the new utility function as follows.  
+\begin{lstlisting}
+shared = 0;
+for(i = 0; i < a.budget.length; i ++)
+{
+      if(a.budget[i] > b.budget[i])
+     {
+        shared += b.budget[i];
+      }
+      else{
+        shared += a.budget[i];
+      }
+}
+utility = ((coalitionSizeFactor * shared) / (quota + 1 - b.totalWeight) + ((1-coalitionSizeFactor) * shared));
+\end{lstlisting}
+I also need to set the coalition size factor when the algorithm is started, and need to increase it each round.
+\subsection{Alternating Offers Game}
 The next decision was how representatives would negotiate with coalitions. I used the model of the alternating offers game with impatient agents. I will therefore use back propagation to work out what the optimal starting offer is for both representative a and coalition b . First I work out  $ \bar{a}, \bar{b}, \underline{a}, \underline{b} $, these are in order, the max utlity a can get from joining b, the least utlity a can get from joining b, the current utility that a has in its current coalition, and the current utility of b.
 \begin{gather*}
 \bar{a} = utiltiy(a.budget,a.budget,b.totalWeight +  a.weight) \\
@@ -79,7 +130,20 @@ The next step is to now check if  $\bar{ab} < \underline{a} + \underline{b}$, if
 
 From this we can find n, that is the turn in which one of the agents can offer the other agent a score higher than the conflict deal for the both of them, ${\underline{a},\underline{b}}$. We can rearrange $\bar{ab} - (n-1)x - \underline{a} - \underline{b}$ to $(\bar{ab} - \underline{a} - \underline{b} - 2) / x = n$. If n is greater than N, then we can set n = N, as it can not go over that many turns.
 \\
-The next step is to calculate the free utility, that is how much extra utility can the agent take for himself on the turn that the offer better than the conflict deal can occur. This is $freeUtility = \bar{a,b} - (n-1)x - \underline{a} - \underline{b} - 2$. Now there are two cases, if n is even then b takes the free utility, and if its off then a takes it. Then for the remaining turns the offeror takes x -1 extra utility and the offeree gets 1 extra utility. 
+The next step is to calculate the free utility, that is how much extra utility can the agent take for himself on the turn that the offer better than the conflict deal can occur. This is $freeUtility = \bar{a,b} - (n-1)x - \underline{a} - \underline{b} - 2$. Now there are two cases, if n is even then b takes the free utility, and if its off then a takes it. Then for the remaining turns the offeror takes x -1 extra utility and the offeree gets 1 extra utility. Therefore I get this function for the optimal utility for each agent.
+\begin{lstlisting}
+if(n \% 2 ==0)
+{
+     aUtility = \underline{b} + 1 + freeUtility + (((n/ 2)-1) * x) + 1;
+     bUtility = \bar{a} + \bar{b} -  aUtility;
+}
+else
+{
+      bUtility = \underline{a}  + 1 + freeUtility +  ((((n + 1)/ 2)-1) * x);
+      aUtility = \bar{a} + \bar{b} -  bUtility;
+ }
+\end{lstlisting}
+The last flaw I had to fix was that the algorithm could give a utility higher than $\bar{a}$, which should be impossible. Therfore if either aUtility or bUtility is over $\bar{a}$, reduce it to $\bar{a}$ and set the other one to $\bar{b}$. 
 
 
 

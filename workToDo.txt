@@ -1,2 +1,5 @@
-
+write abstract
+design tables
 graph gas costs
+how fair did users find it
+design website
