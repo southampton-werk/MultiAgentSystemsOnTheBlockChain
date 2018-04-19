@@ -32,10 +32,54 @@ Also the system must have a system for submitting sinks. I have identified 3 way
 The first and easiest idea for deciding the budget was to take each representatives budget, sum each one and divide by number of representatives. This would be cheap to run and sounds fair. The problem occurs with that all budgets submitted are publicly viewable, and with this algorithm a representative could easily manipulate his budget to achieve the final budget he wanted. 
 A better algorithm would be for each representative to try and form coalitions with his peers, until the coalition reached a certain quota. This solves the problem of a representative submitting a extreme budget to manipulate the final budget, as the other representatives would just form a coalition without him.  
 The next step was to create a function which took a representative’s budget, their current coalition’s budget, and the current size of the coalition and returned the representative’s current utility. To make the utility easy to understand, the range of the function will be from 0 to 100. 100 utility would be when the coalition size is the quota and the coalition budget is the representatives preferred budget. The function I decided on was as followed.
+\\
 Next I had to decide how coalitions would be formed. The first step would be to initialise each representative with his own coalition with his preferred budget. From this point I had to decide whether representatives would take turns joining coalitions or coalitions would take turns inviting representatives. The negatives of coalitions inviting representatives is that larger coalitions would have more chance to have a representative stolen by another coalition and therefore take longer and cost more to calculate. The advantage is that there would be more negotiations and that should result in a more balanced budget. One problem with both of these solutions is that it could lead to a infinite loop and never end, however the joining coalitions method resulted in a lot less of them. Therefore I will use that method. Representatives will take turns, negotiating with each coalition, they will then compare their utility by joining their coalition and choose the coalition which offers the best utility, or stay in the current coalition if its better utility then all offers. 
+\\
 However any infinite loops are unacceptable in the algorithm. To solve this I came up with two solutions. First, representatives could be impatient, this means that a budget in round n is better than a budget in round m if n < m. Another method is to make the coalition size less relevant is earlier turns and make it more important in later turns. The first method allows representatives to look forward to later rounds in order to make an more informed decision. However to work out the single negotiation would be factorial, and therefore unusable with a medium number of representatives. For this reason I will use the second method. With the new utility function as follows.  
-The next decision was how representatives would negotiate with coalitions. I used the model of the alternating offers game with impatient agents. I will therefore use back propagation to work out what the optimal starting offer is for both agents.
+\\
+The next decision was how representatives would negotiate with coalitions. I used the model of the alternating offers game with impatient agents. I will therefore use back propagation to work out what the optimal starting offer is for both representative a and coalition b . First I work out  $ \bar{a}, \bar{b}, \underline{a}, \underline{b} $, these are in order, the max utlity a can get from joining b, the least utlity a can get from joining b, the current utility that a has in its current coalition, and the current utility of b.
+\begin{gather*}
+\bar{a} = utiltiy(a.budget,a.budget,b.totalWeight +  a.weight) \\
+\bar{b} = utility(a.budget,b.budget,b.totalWeight +  a.weight) \\
+\underline{a} = utility(a.budget,a.currentCoalition.budget,a.currentCoaltion.totalWeight) \\
+\underline{b} = utility(b.budget,b.budget,b.totalWeight) \\ 
+\bar{ab} = \bar{a} + \bar{b} 
+\end{gather*}
+The next step is to now check if  $\bar{ab} < \underline{a} + \underline{b}$, if so then we can stop the negotiation as there is no way for both the representative and the coalition to benefit. We also need the variables x and N, which are the cost to run one turn one offer, and the number of turns that are run. With this we can generate this tree. We will set N = 4 in order to make it easier to display.
+\\
+\scalebox{1.6}{
+\begin{forest}
+  [A
+	[B,edge label={node[midway,left,font=\scriptsize]{y}}
+		[${\bar{ab}-y,y}$
+		]
+		[A,edge label={node[midway,left,font=\scriptsize]{z}}
+			[${z,\bar{ab} - z - x}$
+			]
+			[B, edge label={node[midway,left,font=\scriptsize]{g}}
+				[${\bar{ab}-g - 2x,g}$
+				]
+				[A, edge label={node[midway,left,font=\scriptsize]{f}}
+					[${f,\bar{ab} - f - 3x}$
+					]
+					[${\underline{a},\underline{b}}$
+					]
+				]
+				[${\underline{a},\underline{b}}$
+				]
+			]
+			[${\underline{a},\underline{b}}$
+			]
+		]
+		[${\underline{a},\underline{b}}$
+		]
+	]
+  ]
+\end{forest}}
 
+From this we can find n, that is the turn in which one of the agents can offer the other agent a score higher than the conflict deal for the both of them, ${\underline{a},\underline{b}}$. We can rearrange $\bar{ab} - (n-1)x - \underline{a} - \underline{b}$ to $(\bar{ab} - \underline{a} - \underline{b} - 2) / x = n$. If n is greater than N, then we can set n = N, as it can not go over that many turns.
+\\
+The next step is to calculate the free utility, that is how much extra utility can the agent take for himself on the turn that the offer better than the conflict deal can occur. This is $freeUtility = \bar{a,b} - (n-1)x - \underline{a} - \underline{b} - 2$. Now there are two cases, if n is even then b takes the free utility, and if its off then a takes it. Then for the remaining turns the offeror takes x -1 extra utility and the offeree gets 1 extra utility. 
 
 
 
