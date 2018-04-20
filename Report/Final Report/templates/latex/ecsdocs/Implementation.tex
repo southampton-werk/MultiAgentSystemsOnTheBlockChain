@@ -2,3 +2,102 @@
 %% Implementation.tex
 %% ---------------------------------------------------------------- 
 \chapter{Implementation} \label{Chapter: Implementation}
+\section{Setting up Development Environment}
+In order to create and migrate the smart contract onto the blockchain I used a tool called Truffle. This had boilerplate code which had a .sol contract file and a initial\textunderscore migration.js and a deploy\textunderscore contracts.js. After writing code in the .sol file and making sure to deploy in in the deploy\textunderscore contracts.js, you could then run truffle compile to create .json build files which contains fields such as the abi. This could then be deployed to the “real” blockchain, however while in development, Truffle has a tool develop, which allows you to write to deploy the smart contract to a local network. It also provides several addresses preloaded with Ethereum, this allows me to test my program without having to pay any money.  
+\section{Club Contract Inheritance}
+I decided to split my Club smart contract into three, RegistrationClub, VotingClub and BudgetClub. With BudgetClub inheriting from VotingClub and VotingClub inheriting from RegistrationClub. The first reason this was done was to increase readability. Another reason is that I want to make it easier for developers to adapt my smart contract to their situation. E.g A completely different way of choosing representatives, would mean that only VotingClub needs to be changed. 
+\\
+I also created a library called MyLib which will contain all my structs.
+\section{Registration Club}
+This contract needs to take a registration cost when its created, and then allow users to pay that much Ethereum to register. It then needs to store that user in a array as a Struct containing the users name and address. I also require getters to return the number of registered uses, a certain registered user and the balance in the smart contract. This was done with the following code 
+\begin{lstlisting}
+contract RegistrationClub {
+  
+  MyLib.User[] registeredUser;
+  uint public registrationCost;
+  
+  function RegistrationClub(uint cost) public {
+    registrationCost = cost;
+    
+  }
+
+  function register(string name) public payable {
+    if (msg.value > registrationCost && (!isRegistered(msg.sender,registeredUser)) ) {
+      MyLib.User memory u;
+      u.myAddress = msg.sender;
+      u.name = name;
+      registeredUser.push(u);
+    }
+  }
+  
+  
+  function isRegistered(address sample, MyLib.User[] userList) internal pure returns (bool)
+  {
+    for (uint i = 0; i < userList.length; i++)
+    {
+      if(userList[i].myAddress == sample)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  function listRegisteredUsers(uint number) public constant returns (string,address) {
+  return (registeredUser[number].name, registeredUser[number].myAddress);
+  }
+    
+  function getRegisteredUsersLength() public constant returns (uint)
+  {
+     return registeredUser.length;
+   }
+   function getContractValue() public constant returns (uint)
+   {
+      return this.balance;
+   }
+}
+\end{lstlisting}
+I also needed to add the functionality to allow users to change the registration cost if a super-majority of users wish it.  First I added a global mapping which takes a registered user index and returns their current suggestion that user has for the new registration cost. When a new user registered I will set their suggestion to the current registration cost. After that I needed the ability to submit a new registration cost suggestion, and another to check all the submissions and check if a super majority of the same submissions has been reached. This was done with the code as follows.
+\begin{lstlisting}
+function changeRegistrationCostSuggestion(uint suggestion) public {
+    for (uint i = 0; i < registeredUser.length; i++)
+    {
+      if(registeredUser[i].myAddress == msg.sender)
+      {
+        registrationCostSuggestions[i] = suggestion;
+      }
+    }
+  }
+
+  function changeRegistrationCost() public {
+    uint suggestion = checkRegistrationSuggestions();
+    if(suggestion != registrationCost)
+    {
+      registrationCost = suggestion;
+    }
+  }
+
+  function checkRegistrationSuggestions() constant public returns (uint) {
+      uint superMajority = registeredUser.length / 4 * 3;
+      for (uint i = 0; i < registeredUser.length; i++)
+      {
+        uint count = 0;
+        uint iSuggestion = registrationCostSuggestions[i];
+        for (uint p = 0; p < registeredUser.length; p++)
+        {
+          if(iSuggestion == registrationCostSuggestions[p])
+          {
+            count ++;
+          }
+        }
+        if (count > superMajority)
+        {
+          return iSuggestion;
+        }
+      }
+      return registrationCost;
+  }
+\end{lstlisting}
+An important part of the code is that checkRegistrationSuggestions() is constant and public. This is important as running changeRegistrationCost() costs gas even if no changes are made to the registration cost. Therefore a user only wants to run changeRegistrationCost() when he is certain that it will change the registration cost. A user can do this by running checkRegistrationSuggestions() for free and seeing if the return is a value different than the current registration cost.
+\section{Voting Club}
+\section{Budget Club}
+\section{Club Contract Website}

@@ -21,9 +21,8 @@ contract VotingClub is RegistrationClub {
         numberOfRepresentatives = reps;
   }
 
-      //saves gass as dont have to look at candidates with no votes
     function apply() public {
-      if(!addressUsed(msg.sender,buildCandidateList()))
+      if(!isRegistered(msg.sender,buildCandidateList()))
       {
         for (uint i = 0; i < registeredUser.length; i++)
         {
@@ -55,7 +54,7 @@ contract VotingClub is RegistrationClub {
   }
 
   function vote(address[] myVote) public {
-    if(isRegistered() && voteStarted == true && voted[msg.sender] == false){
+    if(isRegistered(msg.sender,registeredUser) && voteStarted == true && voted[msg.sender] == false){
       voted[msg.sender] = true;
       votes.push(myVote);
 

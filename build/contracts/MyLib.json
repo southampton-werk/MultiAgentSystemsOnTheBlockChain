@@ -3,8 +3,8 @@
   "abi": [],
   "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820027204334f80e6987978076ae06fa9350c89adb632ffc719331c69946dcde1f60029",
   "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820027204334f80e6987978076ae06fa9350c89adb632ffc719331c69946dcde1f60029",
-  "sourceMap": "28:250:1:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "28:250:1:-;;;;;",
+  "sourceMap": "28:250:2:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:250:2:-;;;;;",
   "source": "pragma solidity ^0.4.18;\r\n\r\nlibrary MyLib {\r\n\r\n    struct Sink {\r\n      address spender;\r\n      string name;\r\n    }\r\n\r\n    struct User {\r\n      address myAddress;\r\n      string name;\r\n    }\r\n    struct Agent {\r\n      uint u;\r\n      uint[] budget;\r\n      uint weight;\r\n    }\r\n\r\n}\r\n",
   "sourcePath": "C:\\Users\\JakeL\\Desktop\\MultiAgentSystemsOnTheBlockChain\\contracts\\MyLib.sol",
   "ast": {
@@ -12,7 +12,7 @@
       "absolutePath": "/C/Users/JakeL/Desktop/MultiAgentSystemsOnTheBlockChain/contracts/MyLib.sol",
       "exportedSymbols": {
         "MyLib": [
-          1455
+          1508
         ]
       }
     },
@@ -26,9 +26,9 @@
             ".18"
           ]
         },
-        "id": 1436,
+        "id": 1489,
         "name": "PragmaDirective",
-        "src": "0:24:1"
+        "src": "0:24:2"
       },
       {
         "attributes": {
@@ -42,17 +42,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            1455
+            1508
           ],
           "name": "MyLib",
-          "scope": 1456
+          "scope": 1509
         },
         "children": [
           {
             "attributes": {
               "canonicalName": "MyLib.Sink",
               "name": "Sink",
-              "scope": 1455,
+              "scope": 1508,
               "visibility": "public"
             },
             "children": [
@@ -60,7 +60,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "spender",
-                  "scope": 1441,
+                  "scope": 1494,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "address",
@@ -73,20 +73,20 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 1437,
+                    "id": 1490,
                     "name": "ElementaryTypeName",
-                    "src": "72:7:1"
+                    "src": "72:7:2"
                   }
                 ],
-                "id": 1438,
+                "id": 1491,
                 "name": "VariableDeclaration",
-                "src": "72:15:1"
+                "src": "72:15:2"
               },
               {
                 "attributes": {
                   "constant": false,
                   "name": "name",
-                  "scope": 1441,
+                  "scope": 1494,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string storage pointer",
@@ -99,25 +99,25 @@
                       "name": "string",
                       "type": "string storage pointer"
                     },
-                    "id": 1439,
+                    "id": 1492,
                     "name": "ElementaryTypeName",
-                    "src": "96:6:1"
+                    "src": "96:6:2"
                   }
                 ],
-                "id": 1440,
+                "id": 1493,
                 "name": "VariableDeclaration",
-                "src": "96:11:1"
+                "src": "96:11:2"
               }
             ],
-            "id": 1441,
+            "id": 1494,
             "name": "StructDefinition",
-            "src": "51:64:1"
+            "src": "51:64:2"
           },
           {
             "attributes": {
               "canonicalName": "MyLib.User",
               "name": "User",
-              "scope": 1455,
+              "scope": 1508,
               "visibility": "public"
             },
             "children": [
@@ -125,7 +125,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "myAddress",
-                  "scope": 1446,
+                  "scope": 1499,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "address",
@@ -138,20 +138,20 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 1442,
+                    "id": 1495,
                     "name": "ElementaryTypeName",
-                    "src": "144:7:1"
+                    "src": "144:7:2"
                   }
                 ],
-                "id": 1443,
+                "id": 1496,
                 "name": "VariableDeclaration",
-                "src": "144:17:1"
+                "src": "144:17:2"
               },
               {
                 "attributes": {
                   "constant": false,
                   "name": "name",
-                  "scope": 1446,
+                  "scope": 1499,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string storage pointer",
@@ -164,25 +164,25 @@
                       "name": "string",
                       "type": "string storage pointer"
                     },
-                    "id": 1444,
+                    "id": 1497,
                     "name": "ElementaryTypeName",
-                    "src": "170:6:1"
+                    "src": "170:6:2"
                   }
                 ],
-                "id": 1445,
+                "id": 1498,
                 "name": "VariableDeclaration",
-                "src": "170:11:1"
+                "src": "170:11:2"
               }
             ],
-            "id": 1446,
+            "id": 1499,
             "name": "StructDefinition",
-            "src": "123:66:1"
+            "src": "123:66:2"
           },
           {
             "attributes": {
               "canonicalName": "MyLib.Agent",
               "name": "Agent",
-              "scope": 1455,
+              "scope": 1508,
               "visibility": "public"
             },
             "children": [
@@ -190,7 +190,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "u",
-                  "scope": 1454,
+                  "scope": 1507,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "uint256",
@@ -203,20 +203,20 @@
                       "name": "uint",
                       "type": "uint256"
                     },
-                    "id": 1447,
+                    "id": 1500,
                     "name": "ElementaryTypeName",
-                    "src": "217:4:1"
+                    "src": "217:4:2"
                   }
                 ],
-                "id": 1448,
+                "id": 1501,
                 "name": "VariableDeclaration",
-                "src": "217:6:1"
+                "src": "217:6:2"
               },
               {
                 "attributes": {
                   "constant": false,
                   "name": "budget",
-                  "scope": 1454,
+                  "scope": 1507,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "uint256[] storage pointer",
@@ -235,25 +235,25 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 1449,
+                        "id": 1502,
                         "name": "ElementaryTypeName",
-                        "src": "232:4:1"
+                        "src": "232:4:2"
                       }
                     ],
-                    "id": 1450,
+                    "id": 1503,
                     "name": "ArrayTypeName",
-                    "src": "232:6:1"
+                    "src": "232:6:2"
                   }
                 ],
-                "id": 1451,
+                "id": 1504,
                 "name": "VariableDeclaration",
-                "src": "232:13:1"
+                "src": "232:13:2"
               },
               {
                 "attributes": {
                   "constant": false,
                   "name": "weight",
-                  "scope": 1454,
+                  "scope": 1507,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "uint256",
@@ -266,29 +266,29 @@
                       "name": "uint",
                       "type": "uint256"
                     },
-                    "id": 1452,
+                    "id": 1505,
                     "name": "ElementaryTypeName",
-                    "src": "254:4:1"
+                    "src": "254:4:2"
                   }
                 ],
-                "id": 1453,
+                "id": 1506,
                 "name": "VariableDeclaration",
-                "src": "254:11:1"
+                "src": "254:11:2"
               }
             ],
-            "id": 1454,
+            "id": 1507,
             "name": "StructDefinition",
-            "src": "195:78:1"
+            "src": "195:78:2"
           }
         ],
-        "id": 1455,
+        "id": 1508,
         "name": "ContractDefinition",
-        "src": "28:250:1"
+        "src": "28:250:2"
       }
     ],
-    "id": 1456,
+    "id": 1509,
     "name": "SourceUnit",
-    "src": "0:280:1"
+    "src": "0:280:2"
   },
   "compiler": {
     "name": "solc",
@@ -298,9 +298,9 @@
     "4447": {
       "events": {},
       "links": {},
-      "address": "0x30753e4a8aad7f8597332e813735def5dd395028"
+      "address": "0x345ca3e014aaf5dca488057592ee47305d9b3e10"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-04-16T19:57:42.731Z"
+  "updatedAt": "2018-04-20T14:25:39.660Z"
 }

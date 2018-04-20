@@ -1,5 +1,7 @@
-write abstract
+write abstract - half done
 design tables
 graph gas costs
 how fair did users find it
 design website
+Utility needs to be in math no program
+do more backgroud lit

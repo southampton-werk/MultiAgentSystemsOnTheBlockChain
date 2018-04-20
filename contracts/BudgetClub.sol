@@ -206,7 +206,6 @@ contract BudgetClub is VotingClub {
 
   function calculateUtility(uint[] budget1,uint[] budget2, uint coalitionSize,  uint quotaMemory) constant internal returns (uint)
   {
-
     uint shared = sharedBudget(budget1,budget2);
     return (uint) ((coalitionSizeFactor * shared) / (quotaMemory + 1 - coalitionSize) + ((100-coalitionSizeFactor) * shared));
   }
