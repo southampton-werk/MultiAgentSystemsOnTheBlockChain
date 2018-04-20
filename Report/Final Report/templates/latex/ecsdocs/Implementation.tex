@@ -99,5 +99,6 @@ function changeRegistrationCostSuggestion(uint suggestion) public {
 \end{lstlisting}
 An important part of the code is that checkRegistrationSuggestions() is constant and public. This is important as running changeRegistrationCost() costs gas even if no changes are made to the registration cost. Therefore a user only wants to run changeRegistrationCost() when he is certain that it will change the registration cost. A user can do this by running checkRegistrationSuggestions() for free and seeing if the return is a value different than the current registration cost.
 \section{Voting Club}
+
 \section{Budget Club}
 \section{Club Contract Website}
