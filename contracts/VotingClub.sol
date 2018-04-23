@@ -15,7 +15,7 @@ contract VotingClub is RegistrationClub {
   uint public timeVoteStarted =0;
   uint public timeVoteEnded =0;
   uint votingTime = 0;
-
+  uint weightingOption;
     function VotingClub(uint cost, uint term, uint reps) RegistrationClub(cost) public {
         termLength = term;
         numberOfRepresentatives = reps;
@@ -28,7 +28,7 @@ contract VotingClub is RegistrationClub {
         {
           if(registeredUser[i].myAddress == msg.sender)
           {
-            candidates.push(i);
+            candidates.push(i);bn
           }
         }
       }
@@ -119,6 +119,7 @@ contract VotingClub is RegistrationClub {
       }
     }
 
+    //because candidates save int instead of user have to save sorted and unsorted and then compare
     uint[] memory ranked = new uint[](copelandScore.length);
     uint[] memory sortedSecondOrderCopeland = sort(copy(secondOrderCopeland));
 
@@ -198,15 +199,21 @@ contract VotingClub is RegistrationClub {
   }
   function weightCandidates(uint[] ranked) public
   {
+    uint weightingOptionMemory = weightingOption;
     for (uint i = 0; i < numberOfRepresentatives; i++)
     {
       MyLib.Agent memory a;
       a.u = candidates[ranked[i]];
-      a.weight = 1;
+      if(weightingOptionMemory == 0)
+      {
+        a.weight = 1;
+      }
+      else if(weightingOptionMemory == 1)
+      {
+        a.weight = numberOfRepresentatives - i;
+      }
       listOfRepresentatives.push(a);
     }
-    candidates.length = 0;
-
   }
   function sort(uint[] data) public returns (uint[]) {
     quickSort(data, uint(0), uint(data.length - 1));

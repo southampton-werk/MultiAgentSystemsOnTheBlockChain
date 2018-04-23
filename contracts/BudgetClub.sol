@@ -11,8 +11,8 @@ contract BudgetClub is VotingClub {
   uint public coalitionSizeFactorIncrease;
   MyLib.Sink[] listOfSinks;
   uint[] public finalBudget;
-
-
+  mapping (uint => uint) public submittedSink;
+  uint numOfSinksAllowedToSubmit;
   function BudgetClub(uint cost, uint term, uint reps, uint sinks, uint q, uint gas, uint turns, uint sizeFactor, uint sizeFactorIncrease) VotingClub(cost,term,reps) public {
     numberOfSinks = sinks;
     quota = q;
@@ -20,6 +20,7 @@ contract BudgetClub is VotingClub {
     numberOfTurns = turns;
     coalitionSizeFactor = sizeFactor;
     coalitionSizeFactorIncrease = sizeFactorIncrease;
+    numOfSinksAllowedToSubmit = sinks / reps + 1;
   }
 
   function sendOut() {
@@ -45,19 +46,19 @@ contract BudgetClub is VotingClub {
       }
     }
   }
-  //who should be able to do this
   function submitSink(address spender, string name) public
   {
     if(listOfSinks.length < numberOfSinks)
     {
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
-        if(registeredUser[listOfRepresentatives[i].u].myAddress == msg.sender)
+        if(registeredUser[listOfRepresentatives[i].u].myAddress == msg.sender && submitSink[i] < numOfSinksAllowedToSubmit)
         {
           MyLib.Sink memory s;
           s.name = name;
           s.spender = spender;
           listOfSinks.push(s);
+          submitSink[i] += 1;
         }
       }
     }
@@ -66,7 +67,7 @@ contract BudgetClub is VotingClub {
 
   function endBudgetSubmit() public
   {
-    if(allSubmitted())
+    if(listOfRepresentatives.length != 0 && timeVoteEnded + 1000 < block.timestamp)
     {
       decideBudget();
       listOfRepresentatives.length = 0;
