@@ -28,7 +28,7 @@ contract VotingClub is RegistrationClub {
         {
           if(registeredUser[i].myAddress == msg.sender)
           {
-            candidates.push(i);bn
+            candidates.push(i);
           }
         }
       }
