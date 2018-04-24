@@ -10,7 +10,7 @@ contract VotingClub is RegistrationClub {
 
       uint[] candidates;
   address[][] votes;
-  mapping (address => bool) public voted;
+  bool[] public voted;
   bool public voteStarted = false;
   uint public timeVoteStarted =0;
   uint public timeVoteEnded =0;
@@ -54,11 +54,17 @@ contract VotingClub is RegistrationClub {
   }
 
   function vote(address[] myVote) public {
-    if(isRegistered(msg.sender,registeredUser) && voteStarted == true && voted[msg.sender] == false){
-      voted[msg.sender] = true;
-      votes.push(myVote);
-
+    for (uint i = 0; i < userList.length; i++)
+    {
+      if(registeredUser[i].myAddress == sample)
+      {
+        if(voteStarted == true && voted[i] == false){
+          voted[i] = true;
+          votes.push(myVote);
+        }
+      }
     }
+
   }
   function endVote() public
   {

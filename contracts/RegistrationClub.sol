@@ -13,7 +13,7 @@ contract RegistrationClub {
   }
 
   function register(string name) public payable {
-    if (msg.value > registrationCost && (!isRegistered(msg.sender,registeredUser)) ) {
+    if (msg.value >= registrationCost && (!isRegistered(msg.sender,registeredUser)) ) {
       MyLib.User memory u;
       u.myAddress = msg.sender;
       u.name = name;
