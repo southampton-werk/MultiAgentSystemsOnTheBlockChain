@@ -13,7 +13,7 @@ contract BudgetClub is VotingClub {
   uint[] public finalBudget;
   uint[] public submittedSink;
   uint numOfSinksAllowedToSubmit;
-  function BudgetClub(uint cost, uint term, uint reps, uint sinks, uint q, uint gas, uint turns, uint sizeFactor, uint sizeFactorIncrease) VotingClub(cost,term,reps) public {
+  function BudgetClub(uint cost, uint term, uint reps, uint option, uint sinks, uint q, uint gas, uint turns, uint sizeFactor, uint sizeFactorIncrease) VotingClub(cost,term,reps,option) public {
     numberOfSinks = sinks;
     quota = q;
     gasCost = gas;

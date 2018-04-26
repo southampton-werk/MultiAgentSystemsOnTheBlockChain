@@ -10,6 +10,7 @@ library MyLib {
     struct User {
       address myAddress;
       string name;
+      bool voted;
     }
     struct Agent {
       uint u;

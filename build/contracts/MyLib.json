@@ -1,306 +1,608 @@
 {
   "contractName": "MyLib",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820027204334f80e6987978076ae06fa9350c89adb632ffc719331c69946dcde1f60029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820027204334f80e6987978076ae06fa9350c89adb632ffc719331c69946dcde1f60029",
-  "sourceMap": "28:250:0:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "28:250:0:-;;;;;",
-  "source": "pragma solidity ^0.4.18;\r\n\r\nlibrary MyLib {\r\n\r\n    struct Sink {\r\n      address spender;\r\n      string name;\r\n    }\r\n\r\n    struct User {\r\n      address myAddress;\r\n      string name;\r\n    }\r\n    struct Agent {\r\n      uint u;\r\n      uint[] budget;\r\n      uint weight;\r\n    }\r\n\r\n}\r\n",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820c71821a3ae747ecf04ced57a8ee3cea7cec621340ab6c297e8f13b7b9f350da30029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820c71821a3ae747ecf04ced57a8ee3cea7cec621340ab6c297e8f13b7b9f350da30029",
+  "sourceMap": "28:269:2:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:269:2:-;;;;;",
+  "source": "pragma solidity ^0.4.18;\r\n\r\nlibrary MyLib {\r\n\r\n    struct Sink {\r\n      address spender;\r\n      string name;\r\n    }\r\n\r\n    struct User {\r\n      address myAddress;\r\n      string name;\r\n      bool voted;\r\n    }\r\n    struct Agent {\r\n      uint u;\r\n      uint[] budget;\r\n      uint weight;\r\n    }\r\n\r\n}\r\n",
   "sourcePath": "C:\\Users\\JakeL\\Desktop\\MultiAgentSystemsOnTheBlockChain\\contracts\\MyLib.sol",
   "ast": {
-    "attributes": {
-      "absolutePath": "/C/Users/JakeL/Desktop/MultiAgentSystemsOnTheBlockChain/contracts/MyLib.sol",
-      "exportedSymbols": {
-        "MyLib": [
-          20
-        ]
-      }
+    "absolutePath": "/C/Users/JakeL/Desktop/MultiAgentSystemsOnTheBlockChain/contracts/MyLib.sol",
+    "exportedSymbols": {
+      "MyLib": [
+        1553
+      ]
     },
-    "children": [
+    "id": 1554,
+    "nodeType": "SourceUnit",
+    "nodes": [
       {
-        "attributes": {
-          "literals": [
-            "solidity",
-            "^",
-            "0.4",
-            ".18"
-          ]
-        },
-        "id": 1,
-        "name": "PragmaDirective",
-        "src": "0:24:0"
+        "id": 1532,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:2"
       },
       {
-        "attributes": {
-          "baseContracts": [
-            null
-          ],
-          "contractDependencies": [
-            null
-          ],
-          "contractKind": "library",
-          "documentation": null,
-          "fullyImplemented": true,
-          "linearizedBaseContracts": [
-            20
-          ],
-          "name": "MyLib",
-          "scope": 21
-        },
-        "children": [
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1553,
+        "linearizedBaseContracts": [
+          1553
+        ],
+        "name": "MyLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
           {
-            "attributes": {
-              "canonicalName": "MyLib.Sink",
-              "name": "Sink",
-              "scope": 20,
-              "visibility": "public"
-            },
-            "children": [
+            "canonicalName": "MyLib.Sink",
+            "id": 1537,
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "spender",
-                  "scope": 6,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1534,
+                "name": "spender",
+                "nodeType": "VariableDeclaration",
+                "scope": 1537,
+                "src": "72:15:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 2,
-                    "name": "ElementaryTypeName",
-                    "src": "72:7:0"
+                "typeName": {
+                  "id": 1533,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "72:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
                   }
-                ],
-                "id": 3,
-                "name": "VariableDeclaration",
-                "src": "72:15:0"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "name",
-                  "scope": 6,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1536,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1537,
+                "src": "96:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 4,
-                    "name": "ElementaryTypeName",
-                    "src": "96:6:0"
+                "typeName": {
+                  "id": 1535,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "96:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
                   }
-                ],
-                "id": 5,
-                "name": "VariableDeclaration",
-                "src": "96:11:0"
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
-            "id": 6,
-            "name": "StructDefinition",
-            "src": "51:64:0"
+            "name": "Sink",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "51:64:2",
+            "visibility": "public"
           },
           {
-            "attributes": {
-              "canonicalName": "MyLib.User",
-              "name": "User",
-              "scope": 20,
-              "visibility": "public"
-            },
-            "children": [
+            "canonicalName": "MyLib.User",
+            "id": 1544,
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "myAddress",
-                  "scope": 11,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "address",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1539,
+                "name": "myAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "144:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "address",
-                      "type": "address"
-                    },
-                    "id": 7,
-                    "name": "ElementaryTypeName",
-                    "src": "144:7:0"
+                "typeName": {
+                  "id": 1538,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "144:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
                   }
-                ],
-                "id": 8,
-                "name": "VariableDeclaration",
-                "src": "144:17:0"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "name",
-                  "scope": 11,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "string storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1541,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "170:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "string",
-                      "type": "string storage pointer"
-                    },
-                    "id": 9,
-                    "name": "ElementaryTypeName",
-                    "src": "170:6:0"
+                "typeName": {
+                  "id": 1540,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "170:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
                   }
-                ],
-                "id": 10,
-                "name": "VariableDeclaration",
-                "src": "170:11:0"
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1543,
+                "name": "voted",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "190:10:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1542,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "190:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
-            "id": 11,
-            "name": "StructDefinition",
-            "src": "123:66:0"
+            "name": "User",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "123:85:2",
+            "visibility": "public"
           },
           {
-            "attributes": {
-              "canonicalName": "MyLib.Agent",
-              "name": "Agent",
-              "scope": 20,
-              "visibility": "public"
-            },
-            "children": [
+            "canonicalName": "MyLib.Agent",
+            "id": 1552,
+            "members": [
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "u",
-                  "scope": 19,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1546,
+                "name": "u",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "236:6:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 12,
-                    "name": "ElementaryTypeName",
-                    "src": "217:4:0"
+                "typeName": {
+                  "id": 1545,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "236:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 13,
-                "name": "VariableDeclaration",
-                "src": "217:6:0"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "budget",
-                  "scope": 19,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256[] storage pointer",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1549,
+                "name": "budget",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "251:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[] storage pointer"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "length": null,
-                      "type": "uint256[] storage pointer"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint",
-                          "type": "uint256"
-                        },
-                        "id": 14,
-                        "name": "ElementaryTypeName",
-                        "src": "232:4:0"
-                      }
-                    ],
-                    "id": 15,
-                    "name": "ArrayTypeName",
-                    "src": "232:6:0"
+                "typeName": {
+                  "baseType": {
+                    "id": 1547,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "251:4:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1548,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "251:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[] storage pointer"
                   }
-                ],
-                "id": 16,
-                "name": "VariableDeclaration",
-                "src": "232:13:0"
+                },
+                "value": null,
+                "visibility": "internal"
               },
               {
-                "attributes": {
-                  "constant": false,
-                  "name": "weight",
-                  "scope": 19,
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "type": "uint256",
-                  "value": null,
-                  "visibility": "internal"
+                "constant": false,
+                "id": 1551,
+                "name": "weight",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "273:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
                 },
-                "children": [
-                  {
-                    "attributes": {
-                      "name": "uint",
-                      "type": "uint256"
-                    },
-                    "id": 17,
-                    "name": "ElementaryTypeName",
-                    "src": "254:4:0"
+                "typeName": {
+                  "id": 1550,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "273:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   }
-                ],
-                "id": 18,
-                "name": "VariableDeclaration",
-                "src": "254:11:0"
+                },
+                "value": null,
+                "visibility": "internal"
               }
             ],
-            "id": 19,
-            "name": "StructDefinition",
-            "src": "195:78:0"
+            "name": "Agent",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "214:78:2",
+            "visibility": "public"
           }
         ],
-        "id": 20,
-        "name": "ContractDefinition",
-        "src": "28:250:0"
+        "scope": 1554,
+        "src": "28:269:2"
       }
     ],
-    "id": 21,
-    "name": "SourceUnit",
-    "src": "0:280:0"
+    "src": "0:299:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/JakeL/Desktop/MultiAgentSystemsOnTheBlockChain/contracts/MyLib.sol",
+    "exportedSymbols": {
+      "MyLib": [
+        1553
+      ]
+    },
+    "id": 1554,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1532,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".18"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "library",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1553,
+        "linearizedBaseContracts": [
+          1553
+        ],
+        "name": "MyLib",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "MyLib.Sink",
+            "id": 1537,
+            "members": [
+              {
+                "constant": false,
+                "id": 1534,
+                "name": "spender",
+                "nodeType": "VariableDeclaration",
+                "scope": 1537,
+                "src": "72:15:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1533,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "72:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1536,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1537,
+                "src": "96:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 1535,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "96:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Sink",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "51:64:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "MyLib.User",
+            "id": 1544,
+            "members": [
+              {
+                "constant": false,
+                "id": 1539,
+                "name": "myAddress",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "144:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1538,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "144:7:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1541,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "170:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string storage pointer"
+                },
+                "typeName": {
+                  "id": 1540,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "170:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1543,
+                "name": "voted",
+                "nodeType": "VariableDeclaration",
+                "scope": 1544,
+                "src": "190:10:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 1542,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "190:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "User",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "123:85:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "MyLib.Agent",
+            "id": 1552,
+            "members": [
+              {
+                "constant": false,
+                "id": 1546,
+                "name": "u",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "236:6:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1545,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "236:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1549,
+                "name": "budget",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "251:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[] storage pointer"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 1547,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "251:4:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1548,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "251:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[] storage pointer"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1551,
+                "name": "weight",
+                "nodeType": "VariableDeclaration",
+                "scope": 1552,
+                "src": "273:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1550,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "273:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Agent",
+            "nodeType": "StructDefinition",
+            "scope": 1553,
+            "src": "214:78:2",
+            "visibility": "public"
+          }
+        ],
+        "scope": 1554,
+        "src": "28:269:2"
+      }
+    ],
+    "src": "0:299:2"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
   },
   "networks": {
     "4447": {
       "events": {},
       "links": {},
-      "address": "0x2d63bdb2effc4c8f5baec9b4fe87e18e9818d384"
+      "address": "0x345ca3e014aaf5dca488057592ee47305d9b3e10",
+      "transactionHash": "0x14ced28ce950b63bed31feeb7dc1811ddfc4d18df5a874d59b6193e08b358acf"
     }
   },
-  "schemaVersion": "1.0.1",
-  "updatedAt": "2018-04-24T22:18:38.859Z"
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2018-04-26T01:24:50.180Z"
 }

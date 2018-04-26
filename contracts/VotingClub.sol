@@ -10,16 +10,17 @@ contract VotingClub is RegistrationClub {
 
       uint[] candidates;
   address[][] votes;
-  bool[] public voted;
   bool public voteStarted = false;
   uint public timeVoteStarted =0;
   uint public timeVoteEnded =0;
   uint votingTime = 0;
   uint weightingOption;
-    function VotingClub(uint cost, uint term, uint reps) RegistrationClub(cost) public {
+    function VotingClub(uint cost, uint term, uint reps, uint option) RegistrationClub(cost) public {
         termLength = term;
         numberOfRepresentatives = reps;
+        weightingOption = option;
   }
+
 
     function apply() public {
       if(!isRegistered(msg.sender,buildCandidateList()))
@@ -52,14 +53,13 @@ contract VotingClub is RegistrationClub {
       timeVoteStarted = block.timestamp;
     }
   }
-
   function vote(address[] myVote) public {
-    for (uint i = 0; i < userList.length; i++)
+    for (uint i = 0; i < registeredUser.length; i++)
     {
-      if(registeredUser[i].myAddress == sample)
+      if(registeredUser[i].myAddress == msg.sender)
       {
-        if(voteStarted == true && voted[i] == false){
-          voted[i] = true;
+        if(voteStarted == true && registeredUser[i].voted == false){
+          registeredUser[i].voted = true;
           votes.push(myVote);
         }
       }
@@ -68,14 +68,23 @@ contract VotingClub is RegistrationClub {
   }
   function endVote() public
   {
+
     if(timeVoteStarted + votingTime <= block.timestamp && voteStarted == true)
     {
       voteStarted = false;
       timeVoteEnded = block.timestamp;
+      if(candidates.length < numberOfRepresentatives)
+      {
+        numberOfRepresentatives = candidates.length;
+      }
+
       countVotes();
+
       candidates.length = 0;
       votes.length = 0;
+
     }
+
 
   }
   //second order copeland
@@ -125,10 +134,10 @@ contract VotingClub is RegistrationClub {
       }
     }
 
+
     //because candidates save int instead of user have to save sorted and unsorted and then compare
     uint[] memory ranked = new uint[](copelandScore.length);
     uint[] memory sortedSecondOrderCopeland = sort(copy(secondOrderCopeland));
-
 
     for(i=0; i < copelandScore.length; i ++ )
     {
@@ -145,6 +154,8 @@ contract VotingClub is RegistrationClub {
     }
 
     weightCandidates(ranked);
+
+
   }
 
 

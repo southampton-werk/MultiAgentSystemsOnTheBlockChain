@@ -55,7 +55,9 @@ contract RegistrationClub {
   }
 
   function checkRegistrationSuggestions() constant public returns (uint) {
-      uint superMajority = registeredUser.length / 4 * 3;
+    if(registeredUser.length > 1)
+    {
+      uint superMajority = ((registeredUser.length * 2) / 3) + 1  ;
       for (uint i = 0; i < registeredUser.length; i++)
       {
         uint count = 0;
@@ -67,11 +69,12 @@ contract RegistrationClub {
             count ++;
           }
         }
-        if (count > superMajority)
+        if (count >= superMajority)
         {
           return iSuggestion;
         }
       }
+    }
       return registrationCost;
   }
   function subsidize() public payable {}
