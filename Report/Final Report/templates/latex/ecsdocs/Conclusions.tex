@@ -2,3 +2,8 @@
 %% Conclusions.tex
 %% ---------------------------------------------------------------- 
 \chapter{Conclusions} \label{Chapter: Conclusions}
+The System produced solves the current problem with clubs, where all the money is collected and spent by one or a few people. This problem is made worse at university clubs, where is its likely that a first year student has never seen the club before and therefore has no trust in the club or its leadership.  \\
+My solution is a smart contract which is run on the Ethereum network. Users can register, vote and decide the budget by sending transactions to the contract. Users do not have to trust the integrity of the smart contract due to the Ethereum miners who validate every transaction. \\
+One problem added was that due to the complete transparency, malicious users could use other users transaction to manipulate the result of a election or final budget. I had to choose between simple algorithms that could be easily manipulated and cheaply run or algorithms that were hard to manipulate but cost more to run. I choose the second option, but tried to reduce the gas price as much as possible. \\
+My system can scale well for users registering and voting. However number of representatives and candidates must be kept low (around 15) or the gas price starts to become too high. However for the last couple of months the gas to usd value has been trending down and so in the future may allow for more representatives. \\
+I have also written a html and javascript interface for my smart contract. This allows users to interact with the smart contract without a command line. 

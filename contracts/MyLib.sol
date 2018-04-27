@@ -16,6 +16,7 @@ library MyLib {
       uint u;
       uint[] budget;
       uint weight;
+      uint sinkSubmitted;
     }
 
 }

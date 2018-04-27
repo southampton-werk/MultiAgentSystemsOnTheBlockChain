@@ -1,7 +1,6 @@
-write abstract - half done - describe ethereum and smart contracts and solidity
-design tables
+design voting algo tables
 how fair did users find it
-Utility needs to be in math no program
 do more backgroud lit
 refrence gas cost
 decide budget is kinda confusing implemenation
+implementation website

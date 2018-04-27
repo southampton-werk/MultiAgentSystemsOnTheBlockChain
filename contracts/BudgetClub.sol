@@ -11,7 +11,6 @@ contract BudgetClub is VotingClub {
   uint public coalitionSizeFactorIncrease;
   MyLib.Sink[] listOfSinks;
   uint[] public finalBudget;
-  uint[] public submittedSink;
   uint numOfSinksAllowedToSubmit;
   function BudgetClub(uint cost, uint term, uint reps, uint option, uint sinks, uint q, uint gas, uint turns, uint sizeFactor, uint sizeFactorIncrease) VotingClub(cost,term,reps,option) public {
     numberOfSinks = sinks;
@@ -30,13 +29,12 @@ contract BudgetClub is VotingClub {
       listOfSinks[i].spender.transfer(startingBalance * finalBudget[i] / 100);
     }
     listOfSinks.length = 0;
-    submittedSink.length = 0;
 
   }
 
   function submitBudget(uint[] budget) public
   {
-    if(budget.length == numberOfSinks)
+    if(budget.length <= numberOfSinks)
     {
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
@@ -53,13 +51,13 @@ contract BudgetClub is VotingClub {
     {
       for (uint i = 0; i < numberOfRepresentatives; i++)
       {
-        if(registeredUser[listOfRepresentatives[i].u].myAddress == msg.sender && submittedSink[i] < numOfSinksAllowedToSubmit)
+        if(registeredUser[listOfRepresentatives[i].u].myAddress == msg.sender && listOfRepresentatives[i].sinkSubmitted < numOfSinksAllowedToSubmit)
         {
           MyLib.Sink memory s;
           s.name = name;
           s.spender = spender;
           listOfSinks.push(s);
-          submittedSink[i] += 1;
+          listOfRepresentatives[i].sinkSubmitted += 1;
         }
       }
     }
