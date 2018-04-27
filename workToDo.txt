@@ -1,9 +1,7 @@
 write abstract - half done - describe ethereum and smart contracts and solidity
 design tables
-graph gas costs
 how fair did users find it
 Utility needs to be in math no program
 do more backgroud lit
 refrence gas cost
-change mapping to array so multiple rounds can be done
 decide budget is kinda confusing implemenation
