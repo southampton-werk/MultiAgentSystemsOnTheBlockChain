@@ -1,6 +1,2 @@
 design voting algo tables
-how fair did users find it
-do more backgroud lit
-refrence gas cost
 decide budget is kinda confusing implemenation
-implementation website

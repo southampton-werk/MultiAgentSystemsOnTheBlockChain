@@ -97,7 +97,7 @@ function changeRegistrationCostSuggestion(uint suggestion) public {
       return registrationCost;
   }
 \end{lstlisting}
-An important part of the code is that checkRegistrationSuggestions() is constant and public. This is important as running changeRegistrationCost() costs gas even if no changes are made to the registration cost. Therefore a user only wants to run changeRegistrationCost() when he is certain that it will change the registration cost. A user can do this by running checkRegistrationSuggestions() for free and seeing if the return is a value different than the current registration cost.
+An important part of the code is that checkRegistrationSuggestions() is constant and public. This is important as running changeRegistrationCost() costs gas even if no changes are made to the registration cost. Therefore a user only wants to run changeRegistrationCost() when he is certain that it will change the registration cost. A user can do this by running checkRegistrationSuggestions() for free as it is constant, and therfore does not need to be uploaded to the block chain, and seeing if the return is a value different than the current registration cost.
 \section{Voting Club}
 The basic features this needs to implement is the ability to start the voting, each user to submit one list of ranked users, end voting and then rank each user by their second order Copeland score. After ranking their score they will be given a weight according to the algorithm submitted (or with a default one). It will also take three variables, the registration cost, the term length and the number of representatives. \\
 One problem that was spotted was that second order Copeland does pairwise comparison on each agent. This means we could be comparing users who have no votes which could cost a lot of gas. To solve this problem I added another list of users “candidates”. Any user can become a candidate and users can only vote for candidates. This greatly reduces the average number of users I have doing pairwise comparison on. Also since storage is expensive on smart contract I will store the candidates as a array of registeredUsers index’s instead of the User struct. My apply method is as follows.
@@ -288,13 +288,13 @@ function decideBudget() public
       uint[] memory bestOffer = new uint[](2);
       uint bestCoalition = numberOfRepresentativesMemory;
       //get utility in the current coalition
-      uint myAfloor = afloor(coalitionBudgets[playerToCoalition[player]],playerToAgent[player].budget,coalitionSize[playerToCoalition[player]],quotaMemory);
+      uint myAfloor = afloor(coalitionBudgets[playerToCoalition[player]],playerToAgent[player].budget, coalitionSize[playerToCoalition[player]],quotaMemory);
       for(i = 0; i < numberOfRepresentativesMemory; i ++)
       {
         //dont check coalitions with no one or the one your in
         if(playerToCoalition[player] != i && coalitionSize[i] != 0)
         {
-          uint[] memory nego = offer(coalitionBudgets[i],playerToAgent[player].budget,myAfloor,coalitionSize[i],playerToAgent[player].weight);
+          uint[] memory nego = offer(coalitionBudgets[i],playerToAgent[player].budget, myAfloor,coalitionSize[i],playerToAgent[player].weight);
           if(nego[0] > bestOffer[0])
           {
             bestOffer = nego;
@@ -324,7 +324,7 @@ function decideBudget() public
 
     }
 
-    finalBudget = coalitionBudgets[winningCoalition(playerToCoalition,numberOfRepresentativesMemory,playerToAgent)];
+    finalBudget = coalitionBudgets[winningCoalition(playerToCoalition, numberOfRepresentativesMemory,playerToAgent)];
 
   }
 
@@ -343,66 +343,15 @@ function decideBudget() public
     }
   }
 
-  function afloor(uint[] budgetCoala, uint[] budgeta, uint coalSizea, uint quotaMemory ) constant internal returns (uint)
-  {
-    return calculateUtility(budgetCoala,budgeta,coalSizea,quotaMemory);
-  }
-  function bfloor(uint coalSize,  uint quotaMemory) constant internal returns (uint)
-  {
-    return calculate100Utility(coalSize,quotaMemory);
-  }
-  function abar(uint coalSize, uint agentWeight,  uint quotaMemory) constant internal returns (uint)
-  {
-    return calculate100Utility(coalSize + agentWeight,quotaMemory);
-  }
-  function bbar(uint[] budgetCoal, uint[] budgeta, uint coalSize, uint agentWeight,  uint quotaMemory) constant internal returns (uint)
-  {
-    return calculateUtility(budgetCoal,budgeta,coalSize + agentWeight,quotaMemory);
-  }
-  function winningCoalition(uint[] playerToCoalition, uint numberOfRepresentativesMemory,MyLib.Agent[] playerToAgent ) constant internal returns (uint)
-  {
-    uint[] memory weights = new uint[](numberOfRepresentativesMemory);
-    //add all the weights
-    for (uint i = 0; i < numberOfRepresentativesMemory ; i++)
-    {
-      weights[playerToCoalition[i]] += playerToAgent[i].weight;
-    }
-    for (i = 0; i < numberOfRepresentativesMemory ; i++)
-    {
-      if(weights[i] >= quota)
-      {
-        return i;
-      }
-    }
-    return numberOfRepresentativesMemory;
-  }
 
-  function calculate100Utility(uint coalitionSize,  uint quotaMemory) constant internal returns (uint)
-  {
-    return (uint) ((coalitionSizeFactor * 100) / (quotaMemory + 1 - coalitionSize) + ((100-coalitionSizeFactor) * 100));
-  }
 
-  function calculateUtility(uint[] budget1,uint[] budget2, uint coalitionSize,  uint quotaMemory) constant internal returns (uint)
-  {
-    uint shared = sharedBudget(budget1,budget2);
-    return (uint) ((coalitionSizeFactor * shared) / (quotaMemory + 1 - coalitionSize) + ((100-coalitionSizeFactor) * shared));
-  }
-
-  function sharedBudget(uint[] budget1,uint[] budget2) constant internal returns (uint)
-  {
-    uint shared = 0;
-    for(uint i = 0; i < budget1.length; i ++)
-    {
-      if(budget1[i] > budget2[i])
-      {
-        shared += budget2[i];
-      }
-      else{
-        shared += budget1[i];
-      }
-    }
-    return shared;
-  }
+\end{lstlisting}
+Again I tried to put as many variables I was using from storage multiple times on the stack and memory variables to save gas cost. \\
+One problem I faced was that there is no built in decimal types in solidity. This is why my calculate utility has been scaled up by 100 times, it is now between 0 and 10,000. The larger the scale the more accurately I will be able to calculate utility. It also allows more granularity in coalition size factor and coalition size factor increase. Another problem caused by this is that when negotiating a budget between representative and coalition, the total budget would not sum up to 100. To  solve this at the end of negotiating it would give each sink one more unit in the budget until it summed up to 100. This causes the problem that earlier sinks will benefit from this much more than later. However smart contracts are deterministic and there is no way to randomise the orders. \\
+Another implementation decision was to decide the order in which representatives take turns. I decided to leave the order of highest weight to lowest as it was. This was for two reason. First it would cost to reorder it, and because letting the biggest representative form coalitions first should end the negotiation earlier and save more gas.
+I also created another function calculate100utility. This returns the utility if the preferred budget and budget are the same. This saved gas as I need this often, and finding out how much the preferred budget overlaps with the budget is expensive. \\
+The negotiation function returned the utility for each agent.
+\begin{lstlisting}
   function negotiate(uint a_bar,uint b_bar,uint a_floor,uint b_floor)constant  public returns (uint[])
   {
     uint gasCostMemory = gasCost;
@@ -444,7 +393,11 @@ function decideBudget() public
 
 
   }
+\end{lstlisting}
+After finding the negotiation which returned the best utility for the representative, I then had to create a function negoToBudget which took the utility and the representative and coalition budgets and returned the new coalition budget. To do this first, I took each utility and increased it to what it would be if the coalition size was the quota. I then took each of them away from how much the budgets overlap. This gave me three uints,  shardedab which is how much of the budgets overlap, individuala which is how much of the negotiated budget is only in the representative preferred budget, and individualb which is how much of the negotiated budget is only the coalitions current budget. \\
 
+After working out these 3 variables, the function then starting the creating the new budget. First, all the overlapping budget is wanted by both agents so the new budget has them as well. Then I had to decide how the individual a and b where spread. Due to the way I created my utility function, if two sinks are 20 units below the budget, it generated the same utility as one sink 40 units below the budget. I decided to spread the individual utility proportionally by how far away the other agent’s budget was from the agents. 
+\begin{lstlisting} 
   function negoToBudget(uint[] budget1, uint [] budget2, uint[] nego, uint coalitionSize) constant public returns (uint[])
   {
     uint[] memory newBudget = new uint[](budget1.length);
@@ -502,10 +455,8 @@ function decideBudget() public
     return newBudget;
   }
 \end{lstlisting}
-Again I tried to put as many variables I was using from storage multiple times on the stack and memory variables to save gas cost. \\
-One problem I faced was that there is no built in decimal types in solidity. This is why my calculate utility has been scaled up by 100 times, it is now between 0 and 10,000. The larger the scale the more accurately I will be able to calculate utility. It also allows more granularity in coalition size factor and coalition size factor increase. Another problem caused by this is that when negotiating a budget between representative and coalition, the total budget would not sum up to 100. To  solve this at the end of negotiating it would give each sink one more unit in the budget until it summed up to 100. This causes the problem that earlier sinks will benefit from this much more than later. However smart contracts are deterministic and there is no way to randomise the orders. \\
-Another implantation decision was to decide the order in which representatives take turns. I decided to leave the order of highest weight to lowest as it was. This was for two reason. First it would cost to reorder it, and because letting the biggest representative form coalitions first should end the negotiation earlier and save more gas.
-I also created another function calculate100utility. This returns the utility if the preferred budget and budget are the same. This saved gas as I need this often, and finding out how much the preferred budget overlaps with the budget is expensive. \\
-The negotiation function returned the utility for each agent. After finding the negotiation which returned the best utility for the representative, I then had to create a function negoToBudget which took the utility and the representative and coalition budgets and returned the new coalition budget. To do this first, I took each utility and increased it to what it would be if the coalition size was the quota. I then took each of them away from how much the budgets overlap. This gave me three uints,  shardedab which is how much of the budgets overlap, individuala which is how much of the negotiated budget is only in the representative preferred budget, and individualb which is how much of the negotiated budget is only the coalitions current budget. \\
-After working out these 3 variables, the function then starting the creating the new budget. First, all the overlapping budget is wanted by both agents so the new budget has them as well. Then I had to decide how the individual a and b where spread. Due to the way I created my utility function, if two sinks are 20 units below the budget, it generated the same utility as one sink 40 units below the budget. I decided to spread the individual utility proportionally by how far away the other agent’s budget was from the agents. 
 \section{Club Contract Website}
+The first step was to create the html for the website. I created 5 pages, registration, home, settings, vote and representative, with a navigation bar at the top of each page allowing you to access each one. Registration allowed you to register. Home showed all registered users and allowed you to apply to be a candidate. Settings showed all the settings of the Smart Contract and allowed you to start and end voting and budget submit. Vote showed all candidates and allowed you to select them sequentially and submit the vote. Representative allowed representatives to submit sinks, view all submitted sinks and finally submit their preferred budget. \\
+ The next step was to create the javascript. In order to interact with the Smart Contract you can use a library called web3.js. To use this library you must provide it with the address of your deployed contract and its ABI. Truffle provides a library called truffle-contract.js. This library allows you to automatically use the deployed address and ABI of the contract which you have migrated. This is useful during development  as the ABI will change every time the contract changes. \\
+Once I connected to the Smart Contact, I then had to write functions which called the various functions on my contract. One important characteristic of the web3 library is that smart contract return values are returned as promises. A promise is an object that may produce a single value some time in the future: either a resolved value, or a reason that it’s not resolved. This is useful as this is non blocking, and while the Smart Contract runs the function, the user can do other functions on the website. \\
+Another method that I needed to implement was what account users would be sending transactions from. I decided to do this using metamask. Metamask is a web plugin which allows you to sign into your Ethereum account and then inject that account into the javsscript.

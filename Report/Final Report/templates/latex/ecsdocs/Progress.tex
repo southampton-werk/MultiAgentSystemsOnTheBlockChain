@@ -10,9 +10,14 @@
  \usepackage{vmargin}
 \usepackage[linguistics]{forest}
 \usepackage{graphicx}
-\graphicspath{ {img/} 
+\usepackage{float}
 %% ----------------------------------------------------------------
 \begin{document}
+\graphicspath{ {img/} }
+\lstset{%
+  breaklines=true,
+  breakatwhitespace=true,
+}
 \frontmatter
 \title      {Multi Agent Systems on the BlockChain}
 \authors    {\texorpdfstring
@@ -24,7 +29,7 @@
 \subject    {}
 \keywords   {}
 \supervisor {Timothy Norman}
-\examiner   {Timothy Norman}
+\examiner   {Julian Rathke}
 \maketitle
 \tableofcontents
 \mainmatter
