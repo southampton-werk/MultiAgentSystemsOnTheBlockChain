@@ -1,2 +1,0 @@
-design voting algo tables
-decide budget is kinda confusing implemenation

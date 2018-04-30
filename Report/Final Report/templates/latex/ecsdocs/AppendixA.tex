@@ -1,5 +1,93 @@
 %% ----------------------------------------------------------------
 %% AppendixA.tex
 %% ---------------------------------------------------------------- 
-\chapter{Stuff} \label{Chapter:Stuff}
-The following gets in the way of the text....
+\chapter{Appendix} \label{Chapter:Appendix}
+\section{Project Brief}
+\subsection{Problem}
+When a club wants to raise money at the start of a year, they charge an upfront registration fee. The collected money is deposited in a bank account and then used to subsidize/pay for items the club needs. The problem arising from this system, is that the club members cannot see the allocation of the funds. They will be unaware of where the money has been spent and who benefits from the payment. This becomes more critical when a club has various divisions, which may benefit from varying payments. I.e. the top ‘A’ team could be subsidised, whereas the bottom teams may pay more, ( training facility costs etc ) Also the financial decisions are made by the bank account holder or a small select committee.
+\subsection{Goal}
+My solution to this would be a smart contract builder in which a club manager could create a club smart contract. This would allow him to choose the initial registration cost, voting system and other similar parameters. The manager would then share the contract’s public key with all prospective members. The club smart contract would allow users to send Ethereum to the contract, to become registered for a year. This gives the registered user privileges within the club, such as voting on budget proposals and electing committee members. There would also be side groups to allow club members to pay for something which does not necessarily involve the whole club. The side group can also ask for subsidizing from the main club, but this would be subject to a vote. Another difficulty we could address is that by writing in the smart contract that all money left over at the end of the year will be rebated to the members. Knowing this, members may be more willing to pay a larger registration fee initially. In order for the users to interact with the smart contract, I will also create a front end website. Users can access by entering in the clubs smart contract address and by having the extension MetaMask installed. Another goal of my smart contract will be security. No one should be able to access the funds gathered, and the funds should only be sent to addresses which are approved beneficiaries. Also, only members who have registered, should have the right to vote on where the money should be spent. Another goal will be to keep the gas price down (the cost to run smart contracts), this can be done by only storing and writing necessary data.
+\subsection{Scale}
+This smart contract would be useful for any group of people who want to pool money together and need a way of democratic way of choosing how the funds are allocated and need a trustless platform. However, I will focus my project on a sports club which has a hundred or so members. I will also implement a number of voting and negotiating algorithms, which can be set either when the contract is created or with a super majority. I will produce a simple smart contract builder, that will allow you to set a few parameters. I will also create a front end written in HTML that uses web3, an Ethereum API to interact with the blockchain. I will also assume the user is using MetaMask, a chrome extension which allows the user to set their Ethereum account while in a browser.
+\section{Gantt chart}
+\subsection{Planned Schedule}
+ \begin{figure}[H]
+	\hspace*{-100px}% manually adjusted
+	\begin{ganttchart}[    
+	hgrid,    
+	vgrid,    
+	x unit=0.35cm,
+        y unit chart=0.5cm,
+        time slot format=simple
+        ]{0}{34} % width i think?
+	\gantttitle{Month}{35} \\
+	\gantttitle{Oct}{5} 
+	\gantttitle{Nov}{5} 
+	\gantttitle{Dec}{5} 
+	\gantttitle{Jan}{5} 
+	\gantttitle{Feb}{5} 
+	\gantttitle{Mar}{5} 
+	\gantttitle{Apr}{5} 
+	\\
+        % boxes   
+	\ganttbar[progress=100]{Write Brief}{0}{6} \\   
+	\ganttbar[progress=100]{Set Up Truffle }{5}{5} \\   
+	\ganttbar[progress=100]{Basic Registation Contract}{6}{6} \\   
+	\ganttbar[progress=70]{Reading}{0}{12} \\
+	\ganttbar[progress=100]{Budget Problem Definition}{5}{7} \\   
+	\ganttbar[progress=100]{Voting Problem Definition}{8}{8} \\   
+	\ganttbar[progress=80]{Budget Algorithm}{8}{10} \\   
+	\ganttbar[progress=100]{Voting algoithm}{10}{11}   \\
+	\ganttbar[progress=30]{Club Contract}{7}{19} \\   
+	\ganttbar[progress=0]{Budget Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=0]{Vote Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=0]{web3 Interface}{16}{25} \\
+	\ganttbar[progress=0]{Contract Builder}{16}{25} \\
+	\ganttbar[progress=0]{Testing}{23}{25} \\   
+	\ganttbar[progress=0]{Reduce Gas Cost}{13}{25} \\
+	\ganttbar[progress=0]{Secure Contract}{13}{25} \\
+	\ganttbar[progress=0]{Write Report}{26}{34}
+	\end{ganttchart}
+\end{figure}
+\subsection{Actual Progress}
+ \begin{figure}[H]
+	\hspace*{-100px}% manually adjusted
+	\begin{ganttchart}[    
+	hgrid,    
+	vgrid,    
+	x unit=0.35cm,
+        y unit chart=0.5cm,
+        time slot format=simple
+        ]{0}{34} % width i think?
+	\gantttitle{Month}{35} \\
+	\gantttitle{Oct}{5} 
+	\gantttitle{Nov}{5} 
+	\gantttitle{Dec}{5} 
+	\gantttitle{Jan}{5} 
+	\gantttitle{Feb}{5} 
+	\gantttitle{Mar}{5} 
+	\gantttitle{Apr}{5} 
+	\\
+        % boxes   
+	\ganttbar[progress=100]{Write Brief}{0}{6} \\   
+	\ganttbar[progress=100]{Set Up Truffle }{5}{5} \\   
+	\ganttbar[progress=100]{Basic Registation Contract}{6}{6} \\   
+	\ganttbar[progress=100]{Reading}{0}{12} \\
+	\ganttbar[progress=100]{Budget Problem Definition}{5}{7} \\   
+	\ganttbar[progress=100]{Voting Problem Definition}{8}{8} \\   
+	\ganttbar[progress=100]{Budget Algorithm}{8}{11} \\   
+	\ganttbar[progress=100]{Voting algoithm}{10}{11}   \\
+	\ganttbar[progress=100]{Write Registration Tests}{6}{7} \\   
+	\ganttbar[progress=100]{Registration Club Contract}{7}{16} \\   
+	\ganttbar[progress=100]{Write Voting Tests}{14}{15} \\   
+	\ganttbar[progress=100]{Write Budget Tests}{15}{16} \\  
+	\ganttbar[progress=100]{Budget Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=100]{Vote Algorithm Contract}{16}{22} \\   
+	\ganttbar[progress=100]{web3 Interface}{16}{25} \\
+	\ganttbar[progress=80]{Contract Builder}{16}{25} \\
+	\ganttbar[progress=100]{Reduce Gas Cost}{13}{25} \\
+	\ganttbar[progress= 50]{Secure Contract}{13}{25} \\
+	\ganttbar[progress=100]{Write Report}{26}{34}
+	\end{ganttchart}
+\end{figure}
+

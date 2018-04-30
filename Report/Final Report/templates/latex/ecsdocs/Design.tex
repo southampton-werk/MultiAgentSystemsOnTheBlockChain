@@ -7,9 +7,9 @@ One of my goals is that the owner of the system does not have any extra control 
 \begin{center}
  \begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
  \hline
- Policy ID & Clubs and Charites Account & Smart Contract  \\
+  & Clubs and Charites Account & Smart Contract  \\
  \hline
- Signatories To Access Money & 3 &  Can’t unless given the money by the budget. \\
+ Signatories To Access Money & 3 &  Cannot unless given the money by the budget. \\
  \hline
  Max Turnover & 250,000 & Unlimited \\
  \hline
@@ -17,39 +17,55 @@ One of my goals is that the owner of the system does not have any extra control 
  \hline
  Registration is non repudiable & Legally yes, but practically nothing to stop someone from denying registration happened.  & Yes \\
  \hline
- Able to prove you’re the one who registered & Yes & Yes \\
+ Able to prove you're the one who registered & Yes & Yes \\
  \hline
 Transparency (all users can see in and outflows) & No & Yes \\
  \hline
 \end{tabular}
 \end{center}
-The benefits of the Clubs and Charites Account is that it costs zero to run and set up, whereas it can be expensive to store data on the Blockchain. The problem is that only 3 members are required to access the account. This is made worse as the signatories would have to change annually which would require considerable time and effort. Also, if one of the signatories is unavailable, then the club would be unable to access the funds. Compared with the Smart Contract, which this is done automatically.  Another problem is that although the registration is legally non repudiable, a member would have to take the club to small claims court to enforce it. Lastly, the account is viewable by the signatories, therefore not all members can not confirm how much money has been gathered and where it has spent. However, with a Smart Contract all members can see how much money has been gathered and where it has been spent.
-From this I decided that the best design was a Smart Contract, however care must be taken to keep the Gas (how many instructions used) used down. Also, to monitor the Gas Price (cost miners are charging to run a instruction) which this year to date has fallen by 70\%, and the price of Ethereum in GBP. Also another problem to consider is that if a user loses his private key to his Ethereum account it is unrecoverable and you will lose the ability to prove registration.
+The benefits of the Clubs and Charites Account is that it costs zero to run and set up, whereas it can be expensive to store data on the Blockchain. The problem is that only 3 members are required to access the account. This is made worse as the signatories would have to change annually, which would require considerable time and effort. Also, if one of the signatories is unavailable, then the club would be unable to access the funds. Compared with the Smart Contract, this is done automatically.  Another problem is that although the registration is legally non-repudiable, a member would have to take the club to small claims court to enforce it. Lastly, the account is viewable by the signatories, therefore not all members can not confirm how much money has been gathered and where it has spent. However, with a Smart Contract all members can see how much money has been gathered and where it has been spent.
+From this I decided that the best design was a Smart Contract, however care must be taken to keep the Gas (how many instructions used) used down. Also, you must be careful to monitor the Gas Price (cost miners are charging to run a instruction) which this year to date has fallen by 70\%, and the price of Ethereum in GBP. Also, another problem to consider, is that if a user loses his private key to his Ethereum account. it is unrecoverable and you will lose the ability to prove registration.
 \section{How Registered Users Are Stored}
-A feature of Blockchain is all data stored on it, is publicly visible. Therefore, thought must be put into how much data is stored about each user. At minimum we must store the registered users public address. However storing only the users address will make it so communication and accountability is hindered, as a public address is long and non memorable, and will make it hard to see who said and did what. I decided that storing the address and name was the best compromise. In the rare situation two users had the same name and there was argument on who did what, it would not be too much effort for one of them to digitally sign using their private address.
+A feature of blockchain is all data stored on it, is publicly visible. Therefore, thought must be put into how much data is stored about each user. At minimum, we must store the registered users public address. However, storing only the users address will make it so communication and accountability is hindered, as a public address is long and non memorable, and will make it hard to see who said and did what. I decided that storing the address and name was the best compromise. In the rare situation two users had the same name and there was argument on who did what, it would not be too much effort for one of them to digitally sign using their private address.
 \section{Voting Algorithm}
 The voting algorithm to choose representatives is a social welfare function which takes a list of ordered preferences and outputs a ordered preference. I compared a few algorithms to see which best solved this problem.
-\\
-Voting algo table
+\begin{center}
+ \begin{tabular}{|p{5cm}|p{3cm}|p{3cm}|p{3cm}|}
+ \hline
+  & Borda Count & Second Order Copeland & Dodgson’s method \\
+ \hline
+ Pareto efficient & No &  Yes & Yes\\
+ \hline
+ Independence of Irrelevant Alternatives & Yes & No & No \\
+ \hline
+ Non dictatorship & Yes & Yes & Yes \\
+ \hline
+ Condorcet Condition & Yes & Yes & Yes\\
+ \hline
+ Complexity to work out & $k$ & $k^2$ & NP-Hard\\
+ \hline
+Complexity to Manipulate  & $k$ & NP-Complete & NP-Hard \\
+ \hline
+\end{tabular}
+\end{center}
+Borda Count is the cheapest to run, but due to the ease of getting the other users votes, a linear scale to manipulate the outcome is not acceptable. Dodgson’s method was made to be hard to manipulate. However, to do this it is a complicated algorithm and would cost alot of gas to run. Second order copeland time complexity is quadratic, although this is bad as gas cost will rise exponentially, it is worth it to stop other users being able to manipulate the result easily.
 \section{How to Start and End Voting}
-Voting should start a “term length” after the last voting had ended and the voting should end after a preset time after the voting has started. Both term length and voting length are set when the club contract is made. However Smart Contract functions can not run for a long time, and so to check if enough time has past, someone will have to call the function after enough time has past. I have two options for calling the time sensitive functions. First, I could use “Ethereum Alarm Clock”. This allows my Smart Contract to pay someone to run the function at a certain block time. The other option is waiting for one of the users to run the start and end vote functions. The first option has the benefit that we can assume that the voting period will end at a more precise time. The latter has the benefit that it is cheaper.
+Voting should start a “term length” after the last voting had ended and the voting should end after a preset time after the voting has started. Both term length and voting length are set when the club contract is made. However, Smart Contract functions cannot run for a long time, and so to check if enough time has past, someone will have to call the function after a set time. I have two options for calling the time sensitive functions. First, I could use “Ethereum Alarm Clock”. This allows my Smart Contract to pay someone to run the function at a certain block time. The other option is waiting for one of the users to run the start and end vote functions. The first option has the benefit that we can assume that the voting period will end at a more precise time. The latter has the benefit that it is cheaper.
 \\
-I decided to go for the latter, as in my case a few extra minutes or hours of voting, should not be a significant problem. If it is, then users could send the function as quickly as possible to mitigate the problem. If the club has a small number of users, the first option might be better, as there is a greater chance all the users forget to end the voting period.
-\section{How many Representatives}
-An important design decision, is how many representatives should be elected. The trade off is between the system being more representative and the system being cheaper to run. Because the voting algorithm compares each candidate in a pair wise election, the gas cost is exponential to the number of representatives. In my system the number of representatives will be set when the contract is created. Also, due to the fact it can have a large impact on the cost of the contract, if users wish to change it, a super majority should be acquired.
+I decided to go for the latter, as in my case a few extra minutes or hours of voting, should not be a significant problem. If it is, then users could send the function as quickly as possible to mitigate the problem. If the club has a small number of users, the first option might be better, as there is a greater chance all the users may forget to end the voting period.
+\section{How Many Representatives}
+An important design decision, is how many representatives should be elected. The trade off is between the system being more representative and the system being cheaper to run. Because the voting algorithm compares each candidate in a pair-wise election, the gas cost is exponential to the number of representatives. In my system, the number of representatives will be set when the contract is created. Also, due to the fact it can have a large impact on the cost of the contract, if users wish to change it, a super majority should be acquired.
 \section{How to Choose their Weight}
-After the voting algorithm is complete it will output a list of ranked representatives. From this point the system will need to determine how much weight they have in the budget negotiations. One example system  could be weighting the 1st ranked representative, number of representatives, the 2nd, number of representatives – 1 and so on. Another system could be weighting them all one. These are common methods and found in numerous other systems and therefore my system should make it easy to choose these two methods. However in order to make the system more flexible, my system should allow the creator to also create their own function.
+After the voting algorithm is complete, it will output a list of ranked representatives. From this point, the system will need to determine how much weight they have in the budget negotiations. One example system  could be weighting the 1st ranked representative, number of representatives, the 2nd, number of representatives – 1 and so on. Another system could be weighting them all one. These are common methods and found in numerous other systems and therefore my system should make it easy to choose these two methods. However, in order to make the system more flexible, my system should allow the creator to also create their own function.
 \section{How Many Sinks and Who Can Create Them}
 Another decision is how many sinks (budget expenditures), should be allowed to be created. Again the system will allow you to choose the number at contract creation. The benefit of more sinks is that the money will more widely distributed and each manager will have more time to focus on a sink with less responsibilities. The disadvantage is that communication between the managers may be poor, and double spending could occur. Another problem, is that due to economies of scale, money concentrated in fewer hands may be able to afford more items . Lastly, it will raise the gas price of the budget negotiation. However, since it only affects the cost linearly, the system should only require a plurality to change the number of sinks.
 \\
-Also, the system must have a method for submitting sinks. I have identified three ways to do this. First, all users have the ability, second all representatives have the ability and last, each sink is proposed and then voted for. The first option has the benefit that the system is more interactive for more users. However it is prone to abuse, as being a user only requires paying the fee, and a malicious person could fill up the sinks with bogus sinks.  The second option is less like to be abused, as representatives are likely to have a greater attachment to the club. The last option should prevent all abuse, however it is time consuming to have to vote on each sink, and could end up costing a lot of money to run each vote. Therefore, I have decided on the second option.
-\section{When can Budget Submit end}
-This was solved the same method as how voting was ended.
+Also, the system must have a method for submitting sinks. I have identified three ways to do this. First, all users have the ability, second, all representatives have the ability and last, each sink is proposed and then voted for. The first option has the benefit that the system is more interactive for more users. However, it is prone to abuse, as being a user only requires paying the fee, and a malicious person could fill up the sinks with bogus sinks.  The second option is less likely to be abused, as representatives are likely to have a greater attachment to the club. The last option should prevent this abuse. However, it is time consuming to have to vote on each sink, and could end up costing a lot of money to run each vote. Therefore, I have decided on the second option.
 \section{Budget Negotiation Algorithm}
-The first and easiest idea for deciding the budget was to take each representatives budget, sum each one and divide by number of representatives. This would be cheap to run and sounds fair. The problem that occurs is that all budgets submitted are publicly viewable, and with this algorithm, a representative could easily manipulate his budget to achieve the final budget he wanted. 
+The first and easiest idea for deciding the budget was to take each representative's budget, sum each one and divide by number of representatives. This would be cheap to run and sounds fair. The problem that occurs is that all budgets submitted are publicly viewable, and with this algorithm, a representative could easily manipulate his budget to achieve the final budget he wanted. 
 A better algorithm would be for each representative to try to form coalitions with his peers, until the coalition reached a certain quota. This solves the problem of a representative submitting a extreme budget to manipulate the final budget, as the other representatives would just form a coalition without him.  
 \\
-Next I had to decide how coalitions would be formed. The first step would be to initialise each representative with his own coalition with his preferred budget. From this point I had to decide whether representatives would take turns joining coalitions or coalitions would take turns inviting representatives. The negatives of coalitions inviting representatives is that larger coalitions would have more chance to have a representative stolen by another coalition and therefore take longer and cost more to calculate. The advantage is that there would be more negotiations and that should result in a more balanced budget. One problem with both of these solutions is that it could lead to a infinite loop and never end, however the joining coalitions method resulted in a lot less of them. Therefore I will use that method. Representatives will take turns, negotiating with each coalition, they will then compare their utility by joining their coalition and choose the coalition which offers the best utility, or stay in the current coalition if its better utility then all offers. With the algorithm as follows.
+Next, I had to decide how coalitions would be formed. The first step would be to initialise each representative with his own coalition with his preferred budget. From this point I had to decide whether representatives would take turns joining coalitions or coalitions would take turns inviting representatives. The negatives of coalitions inviting representatives is that larger coalitions would have more chance to have a representative stolen by another coalition and therefore take longer and cost more to calculate. The advantage is that there would be more negotiations and that should result in a more balanced budget. One problem with both of these solutions is that it could lead to a infinite loop and never end, however the joining coalitions method resulted in fewer of them. Therefore, I will use that method. Representatives will take turns, negotiating with each coalition, they will then compare their utility by joining their coalition and choose the coalition which offers the best utility, or stay in the current coalition if it is a better utility then all offers. With the algorithm as follows;
 \begin{lstlisting}
 Agent[] Agents;
 Sink[] Sinks;
@@ -73,14 +89,14 @@ while(winningCoalition = false) {
 }
 \end{lstlisting}
 \subsection{Calculating Utility}
-The next step was to create a function which took a representative’s budget , their current coalition’s budget, and the current size of the coalition and returned the representative’s current utility. I wanted the utility to capture that users are happier the more their budget overlaps with their final budget. To make the utility easy to understand, the range of the function will be from 0 to 100. 100 utility would be when the coalition size is the quota and the coalition budget is the representatives preferred budget. The function I decided on was as follows, with a being the representative and b being the coalition. 
+The next step was to create a function which took a representative's budget , their current coalition’s budget, and the current size of the coalition and returned the representative's current utility. I wanted the utility to capture that users are happier the more their budget overlaps with their final budget. To make the utility easy to understand, the range of the function will be from 0 to 100. 100 utility would be when the coalition size is the quota and the coalition budget is the representatives preferred budget. The function I decided on was as follows, with $a$ being the representative and $b$ being the coalition. 
 \\ $Utility = (\sum_{n=0}^k  max(a.budget[n].b.budget[n]))/ quota + 1 - a.weight - b.totalWeight$ \\
-Although representatives joining coalitions reduces the number of infinite loops, any of them are unacceptable in my algorithm. To solve this I propose two solutions. First, representatives could be impatient, this means that a budget in round n is better than a budget in round m if n < m. Another method, is to make the coalition size less relevant in earlier turns and make it more important in later turns. The first method allows representatives to look forward to later rounds in order to make a more informed decision. However to work out the single negotiation would scale factorial, and therefore unusable with a medium number of representatives whereas the second method is a constant effect on the number of instructions and therefore scales much better. For this reason, I will use the second method, with the new utility function as follows.  \\
+Although representatives joining coalitions reduces the number of infinite loops, any of them are unacceptable in my algorithm. To solve this I propose two solutions. First, representatives could be impatient, this means that a budget in round n is better than a budget in round m if n < m. Another method, is to make the coalition size less relevant in earlier turns and make it more important in later turns. The first method allows representatives to look forward to later rounds in order to make a more informed decision. However, to work out the single negotiation would scale factorial, and therefore unusable with a medium number of representatives whereas the second method is a constant effect on the number of instructions and therefore scales much better. For this reason, I will use the second method, with the new utility function as follows.  \\
 $Overlap =   (\sum_{n=0}^k  max(a.budget[n].b.budget[n])))$ \\
 $Utility = ((coalitionSizeFactor * Overlap/ (quota + 1 - b.totalWeight) + ((1-coalitionSizeFactor) * Overlap)))$ \\
 I also need to set the coalition size factor when the algorithm is started, and need to increase it each round.
 \subsection{Alternating Offers Game}
-The next decision was how representatives would negotiate with coalitions. I used the model of the alternating offers game with impatient agents. I will therefore use back propagation to work out what the optimal starting offer is for both representative a and coalition b . First I work out  $ \bar{a}, \bar{b}, \underline{a}, \underline{b} $, these are in order, the max utlity a can get from joining b, the least utlity a can get from joining b, the current utility that a has in its current coalition, and the current utility of b.
+The next decision was how representatives would negotiate with coalitions. I used the model of the alternating offers game with impatient agents. I will therefore use back propagation to work out what the optimal starting offer is for both representative $a$ and coalition $b$ . First I work out  $ \bar{a}, \bar{b}, \underline{a}, \underline{b} $, these are in order, the max utlity $a$ can get from joining $b$, the least utlity $a$ can get from joining $b$, the current utility that $a$ has in its current coalition, and the current utility of $b$.
 \begin{gather*}
 \bar{a} = utiltiy(a.budget,a.budget,b.totalWeight +  a.weight) \\
 \bar{b} = utility(a.budget,b.budget,b.totalWeight +  a.weight) \\
@@ -88,7 +104,7 @@ The next decision was how representatives would negotiate with coalitions. I use
 \underline{b} = utility(b.budget,b.budget,b.totalWeight) \\ 
 \bar{ab} = \bar{a} + \bar{b} 
 \end{gather*}
-The next step is to now check if  $\bar{ab} < \underline{a} + \underline{b}$, if so then we can stop the negotiation as there is no way for both the representative and the coalition to benefit. We also need the variables x and N, which are the cost to run one turn of negotiation, and the number of turns that are run. With this information we can generate this tree. We will set N = 4 in order to make it easier to display.
+The next step is to now check if  $\bar{ab} < \underline{a} + \underline{b}$, if so, then we can stop the negotiation as there is no way for both the representative and the coalition to benefit. We also need the variables $x$ and $N$, which are the cost to run one turn of negotiation, and the number of turns that are run. With this information we can generate this tree. We will set $N = 4$ in order to make it easier to display.
 \\
 \scalebox{1.6}{
 \begin{forest}
@@ -120,25 +136,23 @@ The next step is to now check if  $\bar{ab} < \underline{a} + \underline{b}$, if
   ]
 \end{forest}}
 
-From this we can find n, that is the turn in which one of the agents can offer the other agent a score higher than the conflict deal for the both of them, ${\underline{a},\underline{b}}$. We can rearrange $\bar{ab} - (n-1)x - \underline{a} - \underline{b}$ to $(\bar{ab} - \underline{a} - \underline{b} - 2) / x = n$. If n is greater than N, then we can set n = N, as it can not go over that many turns.
+From this we can find n, that is the turn in which one of the agents can offer the other agent a score higher than the conflict deal for the both of them, ${\underline{a},\underline{b}}$. We can rearrange $\bar{ab} - (n-1)x - \underline{a} - \underline{b} - 2 > 0$ to $(\bar{ab} - \underline{a} - \underline{b} - 2) / x = n$. If $n > N$, then we can set $n = N$, as it cannot go over that many turns.
 \\
-The next step is to calculate the free utility. That is how much extra utility can the agent take for himself on the turn that the offer better than the conflict deal can occur. This is $freeUtility = \bar{a,b} - (n-1)x - \underline{a} - \underline{b} - 2$. Now there are two cases, if n is even then b takes the free utility, and if its off then a takes it. Then for the remaining turns the offeror takes x -1 extra utility and the offeree gets 1 extra utility. Therefore I get this function for the optimal utility for each agent.
-\begin{lstlisting}
-if(n \% 2 ==0)
-{
-     aUtility = \underline{b} + 1 + freeUtility + (((n/ 2)-1) * x) + 1;
-     bUtility = \bar{a} + \bar{b} -  aUtility;
-}
-else
-{
-      bUtility = \underline{a}  + 1 + freeUtility +  ((((n + 1)/ 2)-1) * x);
+The next step is to calculate the free utility. That is how much extra utility, that the agent can take for himself, on the turn that the offer is better than the conflict deal. This is $freeUtility = \bar{a,b} - (n-1)x - \underline{a} - \underline{b} - 2$. Now there are two cases, if $n$ is even then $b$ takes the free utility, and if it is odd then $a$ takes it. Then for the remaining turns, the offeror takes $x -1$ extra utility, and the offeree gets $1$ extra utility. Therefore I get this function, for the optimal utility for each agent. \\
+If n is even
+\begin{gather*}
+     aUtility = \underline{b} + 1 + freeUtility + (((n/ 2)-1) * x) + 1; \\
+     bUtility = \bar{a} + \bar{b} -  aUtility; 
+\end{gather*}
+If n is odd
+\begin{gather*}
+      bUtility = \underline{a}  + 1 + freeUtility +  ((((n + 1)/ 2)-1) * x); \\
       aUtility = \bar{a} + \bar{b} -  bUtility;
- }
-\end{lstlisting}
-The last flaw I needed to fix was that the algorithm could give a utility higher than $\bar{a}$, which should be impossible. Therfore if either aUtility or bUtility is over $\bar{a}$, reduce it to $\bar{a}$ and set the other one to $\bar{b}$.
+ \end{gather*}
+The last flaw I needed to fix was that the algorithm could give a utility higher than $\bar{a}$, which should be impossible. Therfore, if either aUtility or bUtility is over $\bar{a}$, reduce it to $\bar{a}$ and set the other one to $\bar{b}$.
 \section{Club contract Website}
-The design of this will be very minimalistic. This is because any one can connect to the smart contract on the blockchain and therefore this website should be used as a template. Also the website functions need be easy to copy and therefore I need to split my html and javascript code. \\
-The website will allow users to connect their account with metamask. It will then allow them to run all the public functions of the contract, with textboxes to enter parameters, get the public variables, and run the getters to access my structs.  Lastly it will have a ability to message and read messages.
+The design of this will be very minimalistic. This is because anyone can connect to the smart contract on the blockchain and therefore this website should be used as a template. Also, the website functions need be easy to copy and therefore, I need to split my html and javascript code. \\
+The website will allow users to connect their account with metamask. It will then allow them to run all the public functions of the contract, with textboxes to enter parameters, get the public variables, and run the getters to access my structs.
 
 
 
